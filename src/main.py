@@ -12,7 +12,7 @@ from src.classes import Category, Product
 # poetry run isort .; poetry run black .; poetry run flake8; poetry run mypy
 # ================================
 # запуск всех тестов с покрытием
-# poetry run python -m pytest OOP_practica/tests/ --cov=OOP_practica/src --cov-report=html
+# poetry run pytest tests/ --cov=src --cov-report=html
 # ================================
 
 if __name__ == "__main__":
