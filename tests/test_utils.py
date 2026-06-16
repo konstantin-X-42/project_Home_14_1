@@ -1,68 +1,91 @@
-from unittest.mock import mock_open, patch  # импортируем декоратор патч и модуль мок
+import json
 
-from src.utils import get_transactions  # путь к модулю
+import pytest
 
-"""
-показать подробный отчет (название каждого теста и статус).
-pytest tests/test_utils.py -v
+from src.classes import Category, Product
+from src.utils import load_data
 
-выводить print() в консоль во время работы тестов.
-pytest tests/test_utils.py -s
-"""
-
-
-@patch("src.utils.Path.is_file")
-def test_get_transactions_success(mock_is_file):
-    """Проверяем JSON-файл на корректность чтения, функция возвращает список - массив словарей"""
-    mock_is_file.return_value = True
-    mock_data = '[{"id": 1, "amount": 100}, {"id": 2, "amount": 200}]'
-
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = get_transactions("valid.json")
-
-    assert result == [{"id": 1, "amount": 100}, {"id": 2, "amount": 200}]
+# ================================
+# запуск тестов
+# poetry run pytest tests/test_utils.py -v
+# ================================
 
 
-@patch("src.utils.Path.is_file")
-def test_get_transactions_file_not_found(mock_is_file):
-    """Проверяем существование файла по указанному пути и то, что этот файл не папка"""
-    mock_is_file.return_value = False
-
-    result = get_transactions("fake_path.json")
-
-    assert result == []
+@pytest.fixture(autouse=True)
+def reset_category_counts():
+    """Фикстура для автоматического сброса счетчиков класса перед каждым тестом."""
+    Category.category_count = 0
+    Category.product_count = 0
 
 
-@patch("src.utils.Path.is_file")
-def test_get_transactions_not_a_list(mock_is_file):
-    """Проверяем JSON-файл корректен, но корневой элемент — словарь, а не список, функция возвращает пустой []"""
-    mock_is_file.return_value = True
-    mock_data = '{"status": "error", "message": "not a list"}'
-
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = get_transactions("dict.json")
-
-    assert result == []
+# ================================
 
 
-@patch("src.utils.Path.is_file")
-def test_get_transactions_invalid_json(mock_is_file):
-    """Проверяем если JSON-файл повреждён (JSONDecodeError), функция возвращает пустой []"""
-    mock_is_file.return_value = True
-    mock_data = '[{"id": 1, "amount": 100'  # Пропущена закрывающая скобка
+def test_load_data_success(tmp_path):
+    """Тест успешной загрузки корректных данных из JSON-файла."""
+    # Тестовые данные в формате JSON
+    test_data = [
+        {
+            "name": "Электроника",
+            "description": "Техника и гаджеты",
+            "products": [
+                {
+                    "name": "Смартфон",
+                    "description": "Флагман",
+                    "price": 50000.0,
+                    "quantity": 10,
+                },
+                {
+                    "name": "Наушники",
+                    "description": "Беспроводные",
+                    "price": 5000.0,
+                    "quantity": 2,
+                },
+            ],
+        },
+        {"name": "Книги", "description": "Художественная литература", "products": []},
+    ]
 
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = get_transactions("corrupted.json")
+    # Создаем временный файл во временной папке pytest
+    test_file = tmp_path / "test_products.json"
 
-    assert result == []
+    # Записываем тестовый JSON в файл с кодировкой UTF-8
+    with open(test_file, "w", encoding="utf-8") as f:
+        json.dump(test_data, f)
+
+    # Вызываем тестируемую функцию
+    result = load_data(str(test_file))
+
+    # 1. Проверяем длину возвращаемого списка категорий
+    assert len(result) == 2
+
+    # 2. Проверяем первую категорию и её товары
+    cat_1 = result[0]
+    assert isinstance(cat_1, Category)
+    assert cat_1.name == "Электроника"
+    assert cat_1.description == "Техника и гаджеты"
+    assert len(cat_1.products) == 2
+
+    # Проверяем, что внутри списка продуктов действительно лежат объекты класса Product
+    prod_1 = cat_1.products[0]
+    assert isinstance(prod_1, Product)
+    assert prod_1.name == "Смартфон"
+    assert prod_1.price == 50000.0
+    assert prod_1.quantity == 10
+
+    # 3. Проверяем вторую категорию (пустую)
+    cat_2 = result[1]
+    assert cat_2.name == "Книги"
+    assert len(cat_2.products) == 0
+
+    # 4. Проверяем, что глобальные атрибуты классов тоже корректно посчитались
+    assert Category.category_count == 2
+    assert Category.product_count == 2
 
 
-@patch("src.utils.Path.is_file")
-def test_get_transactions_empty_file(mock_is_file):
-    """Проверяем JSON-файл пустой, функция возвращает пустой []"""
-    mock_is_file.return_value = True
-
-    with patch("builtins.open", mock_open(read_data="")):
-        result = get_transactions("empty.json")
-
-    assert result == []
+def test_load_data_file_not_found():
+    """Тест поведения функции при отсутствии файла.
+    Ожидается стандартная ошибка FileNotFoundError.
+    """
+    with pytest.raises(FileNotFoundError):
+        load_data("non_existent_file_12345.json")
