@@ -34,9 +34,7 @@ def reset_category_counts():
 
 def test_product_initialization(sample_products):  # в аргумент передаём фикстуру
     """Тест корректности инициализации объекта класса Product."""
-    product = sample_products[
-        0
-    ]  # запускаем функцию-фикстуру и подставляем первый элемент по индексу
+    product = sample_products[0]  # запускаем функцию-фикстуру и подставляем первый элемент по индексу
 
     assert product.name == "Samsung"  # реальное значение == ожидаемое значение
     assert product.description == "Смартфон"
@@ -46,9 +44,7 @@ def test_product_initialization(sample_products):  # в аргумент пер�
 
 def test_category_initialization(sample_products):
     """Тест корректности инициализации объекта класса Category."""
-    category = Category(
-        "Смартфоны", "Мобильные телефоны", [sample_products[0], sample_products[1]]
-    )
+    category = Category("Смартфоны", "Мобильные телефоны", [sample_products[0], sample_products[1]])
     assert category.name == "Смартфоны"
     assert category.description == "Мобильные телефоны"
     assert category.products == [sample_products[0], sample_products[1]]

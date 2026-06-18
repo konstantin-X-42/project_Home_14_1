@@ -22,9 +22,7 @@ if __name__ == "__main__":
         price=180000.0,
         quantity=5,
     )
-    product2 = Product(
-        name="Iphone 15", description="512GB, Gray space", price=210000.0, quantity=8
-    )
+    product2 = Product(name="Iphone 15", description="512GB, Gray space", price=210000.0, quantity=8)
     product3 = Product(
         name="Xiaomi Redmi Note 11",
         description="1024GB, Синий",

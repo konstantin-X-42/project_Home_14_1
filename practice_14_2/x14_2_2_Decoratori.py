@@ -10,15 +10,17 @@ def printing(func):  # передаём в декоратор функцию
         x=1, y=2, z=3 аргументы в декораторе преобразуются в словарь dict и доступны по ключу в переменной **kwargs
         """
         result = func(*args, **kwargs)
-        print(f'функция {func} вызывается с результатом {result}')
+        print(f"функция {func} вызывается с результатом {result}")
         return result  # результат выполнения функции new_f(10)
 
     return inner  # возвращаем ссылку на функцию
+
 
 @printing  # оборачивает add_one декоратор он вызывает ф-ю inner сокращённая запись
 # функция для декорирования
 def add_one(x):
     return x + 1
+
 
 # без @printing нужна строка
 # new_f = printing(add_one)  # передаём ссылку на функцию (без скобок)
@@ -34,24 +36,27 @@ print(y)
 
 
 # ================================
-print('\n==  random  ==\n')
+print("\n==  random  ==\n")
 # ================================
 import random
+
 """
 Создаём декоратор который оборачивает функцию и возвращает целое число случайных чисел random
 """
 
+
 def my_decorator(func):
     def inner(*args, **kwargs):
         result = func(*args, **kwargs)
-        result_int = int(result)   # модификация вызова функции
+        result_int = int(result)  # модификация вызова функции
         return result_int
 
     return inner
+
 
 @my_decorator
 def get_rand_numbers():
     return random.randint(1, 100) / random.randint(1, 100)
 
-print(get_rand_numbers())
 
+print(get_rand_numbers())
