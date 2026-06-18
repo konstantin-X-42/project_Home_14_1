@@ -58,3 +58,6 @@ exclude = [".git", "__pycache__", "dist"]
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.poetry]
+package-mode = false
