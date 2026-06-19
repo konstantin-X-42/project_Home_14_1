@@ -1,5 +1,4 @@
-from isort.exceptions import FileSkipSetting
-
+import datetime
 
 class Employee:
 
@@ -38,7 +37,7 @@ print("\n==  ЗАДАЧИ  ==\n")
 3. Реализовать метод is_workday с декоратором @staticmethod.
 """
 
-import datetime
+
 
 
 class Employee:
