@@ -46,7 +46,7 @@ warn_return_any = true
 exclude = ['venv']
 explicit_package_bases = true
 
-[[tool.mypy.overrides]]        # отменяет строгую проверку в директории tests
+[[tool.mypy.overrides]]        # отменяет строгую проверку в директории tests_14_2_8
 module = "tests.*"
 disallow_untyped_defs = false
 

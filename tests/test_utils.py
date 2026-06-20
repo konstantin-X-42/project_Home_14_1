@@ -7,7 +7,7 @@ from src.utils import load_data
 
 # ================================
 # запуск тестов
-# poetry run pytest tests/test_utils.py -v
+# poetry run pytest tests_14_2_8/test_utils.py -v
 # ================================
 
 
