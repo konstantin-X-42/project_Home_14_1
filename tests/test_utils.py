@@ -5,6 +5,7 @@ import pytest
 from src.classes import Category, Product
 from src.utils import load_data
 
+
 # ================================
 # запуск тестов
 # poetry run pytest tests/test_utils.py -v
@@ -43,7 +44,7 @@ def test_load_data_success(tmp_path):
                 },
             ],
         },
-        {"name": "Книги", "description": "Художественная литература", "products": []},
+        {"name": "Книги", "description": "Художественная literature", "products": []},
     ]
 
     # Создаем временный файл во временной папке pytest
@@ -64,10 +65,12 @@ def test_load_data_success(tmp_path):
     assert isinstance(cat_1, Category)
     assert cat_1.name == "Электроника"
     assert cat_1.description == "Техника и гаджеты"
-    assert len(cat_1.products) == 2
 
-    # Проверяем, что внутри списка продуктов действительно лежат объекты класса Product
-    prod_1 = cat_1.products[0]
+    # ИСПРАВЛЕНО: Обращаемся к приватному списку через name mangling для проверки его длины
+    assert len(cat_1._Category__products) == 2
+
+    # ИСПРАВЛЕНО: Извлекаем объект Product из приватного списка
+    prod_1 = cat_1._Category__products[0]
     assert isinstance(prod_1, Product)
     assert prod_1.name == "Смартфон"
     assert prod_1.price == 50000.0
@@ -76,7 +79,9 @@ def test_load_data_success(tmp_path):
     # 3. Проверяем вторую категорию (пустую)
     cat_2 = result[1]
     assert cat_2.name == "Книги"
-    assert len(cat_2.products) == 0
+
+    # ИСПРАВЛЕНО: Проверяем пустой приватный список
+    assert len(cat_2._Category__products) == 0
 
     # 4. Проверяем, что глобальные атрибуты классов тоже корректно посчитались
     assert Category.category_count == 2
