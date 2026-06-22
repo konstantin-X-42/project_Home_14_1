@@ -13,13 +13,17 @@
    "Нельзя изменить дату создания на дату из прошлого", при этом новую дату устанавливать не нужно.
 6. Напишите тесты на новый функционал.
 """
-from task import Task
+from src_14_2_8.task import Task
+
+# from .task import Task
+# from practice_14_2.x14_2_8_Zadacha.src_14_2_8.task import Task
+# from task import Task
 
 class User:
     username: str
     email: str
     first_name: str
-    task_list: str
+    task_list: list
     users_count = 0
     all_tasks_count = 0
 
@@ -32,16 +36,22 @@ class User:
         User.users_count += 1
         User.all_tasks_count += len(task_list) if task_list else 0
 
-@property
-def task_list(self):
-    task_str = ""
-    for task in self.__task_list:
-        task_str += f'{task.name}, Статус выполнения: {task.status}, Дата создания: {task.created_at}\n'
+    @property
+    def task_list(self):
+        task_str = ""
+        for task in self.__task_list:
+            task_str += f'{task.name}, Статус выполнения: {task.status}, Дата создания: {task.created_at}\n'
+        return task_str
 
-@task_list.setter
-def task_list(self, task: Task):
-    self.__task_list.append(task)
-    User.all_tasks_count += 1
+    @task_list.setter
+    def task_list(self, task: Task):
+        self.__task_list.append(task)
+        User.all_tasks_count += 1
+
+    @property
+    def task_in_list(self):
+        return self.__task_list
+
 
 if __name__ == "__main__":
     task1 = Task("Купить огурцы", "Купить огурцы для салата")
@@ -58,7 +68,7 @@ if __name__ == "__main__":
     print(user.task_list)
 
     print(user.users_count)
-    print(Users.all_tasks_count)
+    print(User.all_tasks_count)
 
     task5 = Task("Купить огурцы", "Купить огурцы для салата")
     user.task_list = task5

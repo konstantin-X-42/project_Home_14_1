@@ -5,15 +5,13 @@ class Task:
     name: str
     description: str
     status: str
-    created_ad: str
+    created_at: str
 
     def __init__(self, name, description, status="Ожидает старта", created_at=None):
         self.name = name
         self.description = description
         self.status = status
-        self.__created_at = (
-            created_at if created_at else datetime.date.today().strftime("%d.%m.%Y")
-        )
+        self.__created_at = created_at or datetime.date.today().strftime("%d.%m.%Y")
 
     @classmethod
     def new_task(cls, name, description, status="Ожидает старта", created_at=None):
@@ -25,9 +23,13 @@ class Task:
 
     @created_at.setter
     def created_at(self, new_date: str):
-        if datetime.datetime.strptime(new_date, '%d.%m.%Y').date() < datetime.datetime.now().date():
-            print("Нельзя изменить дату создания на дату прошлого")
+        new_dt = datetime.datetime.strptime(new_date, "%d.%m.%Y").date()
+        old_dt = datetime.datetime.strptime(self.__created_at, "%d.%m.%Y").date()
+
+        if new_dt < old_dt:
+            print("Нельзя изменить дату создания на дату из прошлого")
             return
+
         self.__created_at = new_date
 
 

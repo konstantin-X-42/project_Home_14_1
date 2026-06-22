@@ -2,6 +2,11 @@ import pytest
 from src_14_2_8.task import Task
 from src_14_2_8.user import User
 
+# from practice_14_2.x14_2_8_Zadacha.src_14_2_8.task import Task
+# from practice_14_2.x14_2_8_Zadacha.src_14_2_8.user import User
+
+# from ..src_14_2_8.task import Task
+# from ..src_14_2_8.user import User
 
 # @pytest.fixture — это декоратор, превращает функцию в изолированный тестовый объект
 @pytest.fixture
