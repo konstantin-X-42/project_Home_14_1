@@ -7,9 +7,7 @@ from user import User
 
 def read_json(path: str) -> dict:
     full_path = os.path.abspath(path)
-    with open(
-        full_path, "r", encoding="UTF8"
-    ) as file:  # открываем файл по указанному пути
+    with open(full_path, "r", encoding="UTF8") as file:  # открываем файл по указанному пути
         data = json.load(file)  # чтение файла
         return data
 

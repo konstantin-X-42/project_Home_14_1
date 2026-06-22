@@ -1,16 +1,17 @@
 import datetime
 
+
 class Employee:
 
     def __init__(self, first, last, pay):
         self.first = first
         self.last = last
-        self.email = first + '.' + last + '@email.com'
+        self.email = first + "." + last + "@email.com"
         self.pay = pay
 
     @classmethod
     def from_string(cls, emp_str):
-        first, last, pay = emp_str.split('-')
+        first, last, pay = emp_str.split("-")
         return cls(first, last, pay)
 
     @staticmethod
@@ -38,8 +39,6 @@ print("\n==  ЗАДАЧИ  ==\n")
 """
 
 
-
-
 class Employee:
 
     raise_amt = 1.04
@@ -47,19 +46,21 @@ class Employee:
     def __init__(self, first, last, pay):
         self.first = first
         self.last = last
-        self.email = first + '.' + last + '@email.com'
+        self.email = first + "." + last + "@email.com"
         self.pay = pay
-# 1.
+
+    # 1.
     @classmethod
     def from_string(cls, emp_str):
-        first, last, pay = emp_str.split('-')
+        first, last, pay = emp_str.split("-")
         return cls(first, last, pay)
-# 2.
+
+    # 2.
     @classmethod
     def set_raise_amt(cls, new_raise_amt):
         cls.raise_amt = new_raise_amt
 
-# 3.
+    # 3.
     @staticmethod  #  встроенный декоратор в Python
     def is_workday(date):
         if date.weekday() == 5 or date.weekday() == 6:
@@ -72,8 +73,8 @@ class Employee:
 print("\n==  2.  ==\n")
 # ================================
 
-emp_1 = Employee(first='Jon', last='Snow', pay=50000)
-emp_2 = Employee(first='Ivan', last='Ivanov', pay=60000)
+emp_1 = Employee(first="Jon", last="Snow", pay=50000)
+emp_2 = Employee(first="Ivan", last="Ivanov", pay=60000)
 
 print(Employee.raise_amt)  # изначальные данные
 
@@ -87,11 +88,11 @@ print(emp_2.raise_amt)
 print("\n==  1.  ==\n")
 # ================================
 
-emp_str_1 = 'Jon-Snow-70000'
-emp_str_2 = 'Ivan-Ivanov-30000'
-emp_str_3 = 'Elena-Nikitina-90000'
+emp_str_1 = "Jon-Snow-70000"
+emp_str_2 = "Ivan-Ivanov-30000"
+emp_str_3 = "Elena-Nikitina-90000"
 
-first, last, pay = emp_str_1.split('-')
+first, last, pay = emp_str_1.split("-")
 new_emp_1 = Employee(first, last, pay)
 
 # new_emp_1 = Employee.from_string(emp_str_1)

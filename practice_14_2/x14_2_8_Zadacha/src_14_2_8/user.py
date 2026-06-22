@@ -13,11 +13,13 @@
    "Нельзя изменить дату создания на дату из прошлого", при этом новую дату устанавливать не нужно.
 6. Напишите тесты на новый функционал.
 """
+
 from src_14_2_8.task import Task
 
 # from .task import Task
 # from practice_14_2.x14_2_8_Zadacha.src_14_2_8.task import Task
 # from task import Task
+
 
 class User:
     username: str
@@ -27,7 +29,7 @@ class User:
     users_count = 0
     all_tasks_count = 0
 
-    def __init__(self, username, email, first_name, last_name, task_list = None):
+    def __init__(self, username, email, first_name, last_name, task_list=None):
         self.username = username
         self.email = email
         self.first_name = first_name
@@ -40,7 +42,7 @@ class User:
     def task_list(self):
         task_str = ""
         for task in self.__task_list:
-            task_str += f'{task.name}, Статус выполнения: {task.status}, Дата создания: {task.created_at}\n'
+            task_str += f"{task.name}, Статус выполнения: {task.status}, Дата создания: {task.created_at}\n"
         return task_str
 
     @task_list.setter
@@ -59,7 +61,7 @@ if __name__ == "__main__":
     task3 = Task("Купить лук", "Купить лук для салата")
     task4 = Task("Купить перец", "Купить перец для салата")
 
-    user = User('User', 'user@mail.ru', 'User', 'Userov', [task1, task2, task3, task4])
+    user = User("User", "user@mail.ru", "User", "Userov", [task1, task2, task3, task4])
 
     print(user.username)
     print(user.email)

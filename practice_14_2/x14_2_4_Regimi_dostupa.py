@@ -14,6 +14,7 @@ print("\n==  ЗАДАЧА  ==\n")
 4.Убедиться в недоступности атрибутов извне.
 """
 
+
 class Employee:
 
     raise_amt = 1.04
@@ -21,23 +22,23 @@ class Employee:
     def __init__(self, first, last, pay):
         self.__first = first
         self.__last = last
-        self._email = first + '.' + last + '@email.com'
+        self._email = first + "." + last + "@email.com"
         self.pay = pay
 
     def fullname(self):  # метод возвращает строку из приватных атрибутов
-        return f'{self.__first} {self.__last}'
+        return f"{self.__first} {self.__last}"
 
 
-emp_1 = Employee('Ivan', 'Ivanov', 50_000)
+emp_1 = Employee("Ivan", "Ivanov", 50_000)
 
 # print(emp_1.__first)          # вызов private атрибута запрещен
-print(emp_1.fullname())         # Вызов публичного метода класса (выводит полное имя)
-print(emp_1._email)             # Чтение защищенного (protected) атрибута извне
-emp_1._email = 'test@mail.com'  # Изменение protected-атрибута напрямую (нарушение инкапсуляции)
-print(emp_1._email)             # Проверка: значение успешно изменилось на 'test@mail.com'
-print(emp_1.pay)                # Чтение обычного публичного (public) атрибута
+print(emp_1.fullname())  # Вызов публичного метода класса (выводит полное имя)
+print(emp_1._email)  # Чтение защищенного (protected) атрибута извне
+emp_1._email = "test@mail.com"  # Изменение protected-атрибута напрямую (нарушение инкапсуляции)
+print(emp_1._email)  # Проверка: значение успешно изменилось на 'test@mail.com'
+print(emp_1.pay)  # Чтение обычного публичного (public) атрибута
 
 # Изменение приватного атрибута в обход правил
-emp_1._Employee__first = 'Света'
+emp_1._Employee__first = "Света"
 print(emp_1.fullname())  # Выведет уже новое имя!
 print(dir(emp_1))

@@ -8,6 +8,7 @@ from src_14_2_8.user import User
 # from ..src_14_2_8.task import Task
 # from ..src_14_2_8.user import User
 
+
 # @pytest.fixture — это декоратор, превращает функцию в изолированный тестовый объект
 @pytest.fixture
 def first_user():

@@ -1,4 +1,5 @@
 from src_14_2_8.user import User
+
 # from practice_14_2.x14_2_8_Zadacha.src_14_2_8.user import User
 
 # from ..src_14_2_8.user import User
@@ -38,8 +39,11 @@ def test_user_init(first_user, second_user):
 
 
 def test_user_task_list_property(first_user):
-    assert first_user.task_list == ("Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: 21.06.2026\n"
-                             "Купить помидоры, Статус выполнения: Ожидает старта, Дата создания: 21.06.2026\n")
+    assert first_user.task_list == (
+        "Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: 21.06.2026\n"
+        "Купить помидоры, Статус выполнения: Ожидает старта, Дата создания: 21.06.2026\n"
+    )
+
 
 def test_user_task_setter(first_user, task):
     assert len(first_user.task_in_list) == 2

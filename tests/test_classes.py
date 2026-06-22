@@ -4,7 +4,10 @@ from src.classes import Category, Product
 
 # ================================
 # запуск тестов
-# poetry run pytest tests_14_2_8/test_classes.py -v
+# poetry run pytest tests/test_classes.py -v
+
+# запуск всех тестов в проекте tests
+# poetry run pytest tests -v
 # ================================
 
 
