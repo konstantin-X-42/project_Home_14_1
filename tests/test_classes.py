@@ -2,7 +2,6 @@ import pytest
 
 from src.classes import Category, Product
 
-
 # ================================
 # запуск тестов
 # poetry run pytest tests/test_classes.py -v
@@ -53,10 +52,7 @@ def test_category_initialization(sample_products):
     assert category.description == "Мобильные телефоны"
 
     # Исправлено: теперь геттер возвращает строку в заданном формате
-    expected_output = (
-        "Samsung, 60000.0 руб. Остаток: 8 шт.\n"
-        "Nokia, 3999.99 руб. Остаток: 3 шт."
-    )
+    expected_output = "Samsung, 60000.0 руб. Остаток: 8 шт.\n" "Nokia, 3999.99 руб. Остаток: 3 шт."
     assert category.products == expected_output
 
 
@@ -97,12 +93,7 @@ def test_category_add_product(sample_products):
 
 def test_product_new_product_creation():
     """Тест создания продукта через класс-метод new_product."""
-    product_data = {
-        "name": "Xiaomi",
-        "description": "Бюджетный смартфон",
-        "price": 15000.0,
-        "quantity": 5
-    }
+    product_data = {"name": "Xiaomi", "description": "Бюджетный смартфон", "price": 15000.0, "quantity": 5}
     new_item = Product.new_product(product_data)
 
     assert isinstance(new_item, Product)
@@ -119,7 +110,7 @@ def test_product_new_product_duplicate(sample_products):
         "name": "Samsung",
         "description": "Новая поставка",
         "price": 65000.0,  # Цена выше текущей
-        "quantity": 2  # Количество увеличится на 2
+        "quantity": 2,  # Количество увеличится на 2
     }
 
     updated_product = Product.new_product(duplicate_data, products_list)
@@ -144,7 +135,7 @@ def test_product_price_decrease_confirm(sample_products, monkeypatch):
     product = sample_products[0]
 
     # Имитируем ввод пользователя 'y' в терминале
-    monkeypatch.setattr('builtins.input', lambda _: 'y')
+    monkeypatch.setattr("builtins.input", lambda _: "y")
 
     product.price = 55000.0
     assert product.price == 55000.0
@@ -155,7 +146,7 @@ def test_product_price_decrease_cancel(sample_products, monkeypatch):
     product = sample_products[0]
 
     # Имитируем ввод пользователя 'n' в терминале
-    monkeypatch.setattr('builtins.input', lambda _: 'n')
+    monkeypatch.setattr("builtins.input", lambda _: "n")
 
     product.price = 55000.0
     assert product.price == 60000.0  # Цена осталась прежней

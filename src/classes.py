@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List, Optional
 
 
 class Product:
@@ -20,14 +20,14 @@ class Product:
         self.quantity = quantity
 
     @classmethod
-    def new_product(cls, product_data: dict, products_list: list = None):
+    def new_product(cls, product_data: dict[str, Any], products_list: Optional[list["Product"]] = None) -> "Product":
         """
         Класс-метод для создания нового товара или обновления существующего дубликата.
         """
-        name = product_data.get("name")
-        description = product_data.get("description")
-        price = product_data.get("price")
-        quantity = product_data.get("quantity")
+        name = str(product_data.get("name", ""))
+        description = str(product_data.get("description", ""))
+        price = float(product_data.get("price", 0.0))
+        quantity = int(product_data.get("quantity", 0))
 
         # Если передан список существующих товаров, проверяем на дубликаты
         if products_list:
@@ -69,6 +69,7 @@ class Product:
         else:
             # Если цена повышается или не меняется, обновляем без вопросов
             self.__price = new_price
+
 
 class Category:
     """Класс для представления категории товаров."""

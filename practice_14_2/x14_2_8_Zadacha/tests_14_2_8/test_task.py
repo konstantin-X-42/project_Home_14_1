@@ -6,7 +6,7 @@ from src_14_2_8.task import Task
 
 # ================================
 # запуск тестов
-# poetry run pytest SkyPro_14_1_9_Zadachya/tests/test_task.py
+# poetry run pytest practice_14_2/x14_2_8_Zadacha/tests_14_2_8/test_task.py
 # ================================
 
 

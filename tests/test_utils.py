@@ -5,7 +5,6 @@ import pytest
 from src.classes import Category, Product
 from src.utils import load_data
 
-
 # ================================
 # запуск тестов
 # poetry run pytest tests/test_utils.py -v
@@ -67,10 +66,10 @@ def test_load_data_success(tmp_path):
     assert cat_1.description == "Техника и гаджеты"
 
     # ИСПРАВЛЕНО: Обращаемся к приватному списку через name mangling для проверки его длины
-    assert len(cat_1._Category__products) == 2
+    assert len(cat_1._Category__products) == 2  # type: ignore [attr-defined]
 
     # ИСПРАВЛЕНО: Извлекаем объект Product из приватного списка
-    prod_1 = cat_1._Category__products[0]
+    prod_1 = cat_1._Category__products[0]  # type: ignore [attr-defined]
     assert isinstance(prod_1, Product)
     assert prod_1.name == "Смартфон"
     assert prod_1.price == 50000.0
@@ -81,7 +80,7 @@ def test_load_data_success(tmp_path):
     assert cat_2.name == "Книги"
 
     # ИСПРАВЛЕНО: Проверяем пустой приватный список
-    assert len(cat_2._Category__products) == 0
+    assert len(cat_2._Category__products) == 0  # type: ignore [attr-defined]
 
     # 4. Проверяем, что глобальные атрибуты классов тоже корректно посчитались
     assert Category.category_count == 2
