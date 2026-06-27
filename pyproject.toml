@@ -46,7 +46,7 @@ warn_return_any = true
 exclude = ['venv']
 explicit_package_bases = true
 
-[[tool.mypy.overrides]]        # отменяет строгую проверку в директории tests
+[[tool.mypy.overrides]]        # отменяет строгую проверку в директории tests_14_2_8
 module = "tests.*"
 disallow_untyped_defs = false
 
@@ -57,4 +57,7 @@ exclude = [".git", "__pycache__", "dist"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
-testpaths = ["tests"]
+#testpaths = ["tests", "practice_14_2"]    # жеская привязка папок для воспроизведения тестов
+
+[tool.poetry]
+package-mode = false
