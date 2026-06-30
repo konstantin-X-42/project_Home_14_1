@@ -1,4 +1,7 @@
-from typing import Any, Optional
+# from itertools import product
+from typing import Any, List, Optional
+
+# from openpyxl.styles.builtins import total
 
 
 class Product:
@@ -19,6 +22,20 @@ class Product:
         # Количество в наличии
         self.quantity = quantity
 
+    def __str__(self) -> str:
+        """Строковое представление продукта"""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: Any) -> float:
+        """Сложение двух продуктов: сумма произведений цены на количество"""
+        # Проверяем принадлежит ли объект other к классу Product (или к его подклассам). Не принадлежит - False
+        if not isinstance(other, Product):
+            # инициализируем ошибку если False
+            raise TypeError("Можно складывать только объекты класса Product")
+        # Перемножаем цену на количество для обоих товаров и складываем
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
+
     @classmethod
     def new_product(cls, product_data: dict[str, Any], products_list: Optional[list["Product"]] = None) -> "Product":
         """
@@ -35,14 +52,11 @@ class Product:
                 if existing_product.name == name:
                     # 1. Складываем количество в наличии
                     existing_product.quantity += quantity
-
                     # 2. Выбираем более высокую цену, используем СЕТТЕР для сравнения и изменения цены
                     if price > existing_product.price:
                         existing_product.price = price
-
                     # Возвращаем обновленный существующий товар
                     return existing_product
-
         # Если дубликат не найден или список не передан, создаем новый объект
         return cls(name, description, price, quantity)
 
@@ -57,7 +71,6 @@ class Product:
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
-
         # Если цена понижается, запрашиваем подтверждение пользователя
         if new_price < self.__price:
             user_answer = input("Вы уверены, что хотите понизить цену? (y/n): ").strip().lower()
@@ -83,16 +96,20 @@ class Category:
 
         # Название категории
         self.name = name
-
         # Описание категории
         self.description = description
-
         # Приватный список объектов класса Product
         self.__products = products
-
         # Автоматическое увеличение счетчиков при создании новой категории (Класс.атрибут)
         Category.category_count += 1
         Category.product_count += len(products)
+
+    def __str__(self) -> str:
+        """Строковое представление категории"""
+        # for берет каждый товар из приватного списка,
+        # product.quantity - на каждом шаге цикла, забираем у текущего товара его количество и суммируем
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
 
     def add_product(self, product: Product) -> None:
         """Метод для добавления товара в приватный список категории."""
@@ -101,8 +118,53 @@ class Category:
 
     @property
     def products(self) -> str:
-        """Геттер для вывода списка товаров в виде строки."""
+        """Геттер для вывода списка товаров в виде строки с использованием __str__ продуктов"""
+        # Оптимизация: преобразуем каждый объект продукта в строку через str(product)
+#----------------------------
+        # 1. Создаем пустой список, куда будем складывать готовые текстовые строки
         product_strings = []
+
+        # 2. Запускаем цикл: берем по очереди каждый объект-продукт из приватного списка
         for product in self.__products:
-            product_strings.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
-        return "\n".join(product_strings)
+            # Переводим объект продукта в строку. В этот момент автоматически
+            # вызывается метод __str__ внутри класса Product.
+            product_text = str(product)
+
+            # Складываем получившуюся текстовую строку в наш список product_strings
+            product_strings.append(product_text)
+
+        # 3. Объединяем все элементы списка в один большой текст.
+        # На месте стыков между строками вставляем перенос строки (\n).
+        result_text = "\n".join(product_strings)
+
+        # 4. Возвращаем готовый текст из метода наружу
+        return result_text
+#----------------------------
+        # запись коротко
+        # return "\n".join(str(product) for product in self.__products)
+
+    @property
+    def get_products_list(self) -> list[Product]:
+        """Дополнительный геттер для получения списка объектов (для итератора)"""
+        return self.__products
+
+class CategoryIterator:
+    """Класс для итерации по товарам конкретной категории."""
+
+    def __init__(self, category: Category):
+        self.products = category.get_products_list
+        self.index = 0
+
+    def __iter__(self):
+        self.index = 0 # Сбрасываем индекс при начале новой итерации
+        return self
+
+    def __next__(self) -> Product:
+        # Проверяем не закончились ли товары, меньше ли текущий индекс, чем общее число товаров
+        if self.index < len(self.products):
+            product = self.products[self.index]
+            self.index += 1
+            return product
+        else:
+            # товары закончились
+            raise StopIteration
