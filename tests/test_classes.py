@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, Product
+from src.classes import Category, CategoryIterator, Product
 
 # ================================
 # запуск тестов
@@ -31,9 +31,7 @@ def reset_category_counts():
     Category.category_count = 0
     Category.product_count = 0
 
-
-# ================================
-
+# ========================================================
 
 def test_product_initialization(sample_products):  # в аргумент передаём фикстуру
     """Тест корректности инициализации объекта класса Product."""
@@ -150,3 +148,66 @@ def test_product_price_decrease_cancel(sample_products, monkeypatch):
 
     product.price = 55000.0
     assert product.price == 60000.0  # Цена осталась прежней
+
+
+# ==============
+# ТЕСТЫ 15.1
+# ==============
+
+
+def test_product_str(sample_products):
+    """Тест строкового представления объекта класса Product (__str__)."""
+    product = sample_products[0]
+    assert str(product) == "Samsung, 60000.0 руб. Остаток: 8 шт."
+
+
+def test_category_str(sample_products):
+    """Тест строкового представления объекта класса Category (__str__)."""
+    category = Category("Смартфоны", "Мобильные телефоны", [sample_products[0], sample_products[1]])
+    # 8 шт (Samsung) + 3 шт (Nokia) = 11 шт всего на складе
+    assert str(category) == "Смартфоны, количество продуктов: 11 шт."
+
+
+def test_product_add_assignment_example():
+    """Тест сложения двух продуктов (__add__) на примере данных из ТЗ."""
+    # Тестовые данные строго из условия Задания 2: 100 * 10 + 200 * 2 = 1400
+    product_a = Product("Товар A", "Описание A", 100.0, 10)
+    product_b = Product("Товар B", "Описание B", 200.0, 2)
+
+    assert product_a + product_b == 1400.0
+
+
+def test_product_add_type_error(sample_products):
+    """Тест, что сложение продукта с объектом другого типа вызывает TypeError."""
+    product = sample_products[0]
+    with pytest.raises(TypeError):
+        _ = product + 12345
+
+
+def test_category_iterator(sample_products):
+    """Тест работы класса-итератора CategoryIterator в цикле for."""
+    category = Category("Смартфоны", "Мобильные телефоны", [sample_products[0], sample_products[1]])
+
+    iterator = CategoryIterator(category)
+    iterated_products = []
+
+    # Проверяем, что итератор корректно работает в цикле for
+    for product in iterator:
+        iterated_products.append(product)
+
+    assert len(iterated_products) == 2
+    assert iterated_products[0].name == "Samsung"
+    assert iterated_products[1].name == "Nokia"
+
+
+def test_category_iterator_stop_iteration(sample_products):
+    """Тест генерации исключения StopIteration при выходе за пределы списка."""
+    category = Category("Аксессуары", "Разное", [sample_products[2]])
+    iterator = CategoryIterator(category)
+
+    # Первый вызов возвращает карту памяти
+    assert next(iterator).name == "sd 128Гб"
+
+    # Второй вызов должен вызвать StopIteration, так как товаров больше нет
+    with pytest.raises(StopIteration):
+        next(iterator)
