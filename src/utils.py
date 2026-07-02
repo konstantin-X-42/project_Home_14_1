@@ -53,7 +53,7 @@ def load_data(file_path: str) -> list[Category]:
 #     Category.product_count = 0
 #
 #
-#     # Определяем путь к текущему файлу utils.py, поднимаемся на уровень выше в src_14_2_8,
+#     # Определяем путь к текущему файлу utils.py, поднимаемся на уровень выше в src_15_1_9,
 #     # затем в корень OOP_practica
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
 #     root_dir = os.path.dirname(current_dir)  # это папка OOP_practica
