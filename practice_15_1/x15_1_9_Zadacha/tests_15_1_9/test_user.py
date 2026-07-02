@@ -1,3 +1,4 @@
+import pytest
 from user import User
 
 # from src_15_1_9.user import User
@@ -48,3 +49,20 @@ def test_user_task_setter(first_user, task):
     assert len(first_user.task_in_list) == 2
     first_user.task_list = task
     assert len(first_user.task_in_list) == 3
+
+
+# тест работы строкового представления
+def test_user_str(first_user):
+    # print(first_user) # проверяем, верно исполняется
+    assert str(first_user) == "Userov User, Email: user@mail.ru, Всего задач в списке: 2"
+
+# тест работы итератора
+def test_task_iterator(task_iterator):
+    iter(task_iterator)
+    assert task_iterator.index == 0
+    assert next(task_iterator).name == "Купить огурцы"
+    assert next(task_iterator).name == "Купить помидоры"
+    assert next(task_iterator).name == "Купить лук"
+
+    with pytest.raises(StopIteration):
+        next(task_iterator)

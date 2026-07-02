@@ -1,6 +1,7 @@
 import pytest
 from task import Task
 from user import User
+from  task_iterator import TaskIterator
 
 # from src_15_1_9.task import Task
 # from src_15_1_9.user import User
@@ -15,8 +16,8 @@ def first_user():
         first_name="User",
         last_name="Userov",
         task_list=[
-            Task("Купить огурцы", "Купить огурцы для салата"),
-            Task("Купить помидоры", "Купить помидоры для салата"),
+            Task("Купить огурцы", "Купить огурцы для салата", created_at="02.07.2026"),
+            Task("Купить помидоры", "Купить помидоры для салата", created_at="02.07.2026"),
         ],
     )
 
@@ -31,9 +32,9 @@ def second_user():
         first_name="John",
         last_name="Doe",
         task_list=[
-            Task("Купить огурцы", "Купить огурцы для салата"),
-            Task("Купить помидоры", "Купить помидоры для салата"),
-            Task("Купить лук", "Купить лук для салата"),
+            Task("Купить огурцы", "Купить огурцы для салата", created_at="02.07.2026"),
+            Task("Купить помидоры", "Купить помидоры для салата", created_at="02.07.2026"),
+            Task("Купить лук", "Купить лук для салата", created_at="02.07.2026"),
         ],
     )
 
@@ -44,3 +45,18 @@ def second_user():
 @pytest.fixture
 def task():
     return Task("Купить огурцы", "Купить огурцы для салата", created_at="12.06.2026")
+
+
+@pytest.fixture
+def task_with_runtime1():
+    return Task("Купить помидоры", "Купить помидоры для салата", created_at="12.06.2026", run_time=60)
+
+
+@pytest.fixture
+def task_with_runtime2():
+    return Task("Купить перец", "Купить перец для салата", created_at="12.06.2026", run_time=70)
+
+
+@pytest.fixture
+def task_iterator(second_user):
+    return TaskIterator(second_user)

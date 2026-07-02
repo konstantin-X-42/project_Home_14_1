@@ -42,11 +42,14 @@ class User:
         User.users_count += 1
         User.all_tasks_count += len(task_list) if task_list else 0
 
+    def __str__(self):
+        return f'{self.last_name} {self.first_name}, Email: {self.email}, Всего задач в списке: {len(self.__task_list)}'
+
     @property
     def task_list(self):
         task_str = ""
         for task in self.__task_list:
-            task_str += f"{task.name}, Статус выполнения: {task.status}, Дата создания: {task.created_at}\n"
+            task_str += f"{str(task)}\n"
         return task_str
 
     @task_list.setter
@@ -81,3 +84,5 @@ if __name__ == "__main__":
 
     print(user.task_list)
     print(User.all_tasks_count)
+
+    print(user)
