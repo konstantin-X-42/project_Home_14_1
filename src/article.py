@@ -26,6 +26,14 @@ class Article:
         cls.articles[new_article.article_id] = new_article
         return  new_article
 
+
+    @classmethod
+    def search(cls, article_id):
+        """ Метод для поиска статьи по ID """
+        # return cls('test3', 'test3')
+        return cls.articles[article_id]
+
+
 if __name__ == '__main__':
     new_article1 = Article.insert('test1', 'test1')
     print(new_article1.article_id)
