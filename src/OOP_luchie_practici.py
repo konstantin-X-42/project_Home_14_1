@@ -121,8 +121,11 @@ insert — добавление поста.
 """
 
 """
-1.создаём Git репозиторий
-2.создаём виртуальное окружение, устанавливаем poetry
+1.создаём ветку main
+git checkout main
+
+2.создаём Git репозиторий
+3.создаём виртуальное окружение, устанавливаем poetry
 poetry init
 
 Как пройти опрос Poetry по шагам:
@@ -134,14 +137,27 @@ Would you like to define your main dependencies interactively? (yes/no) [yes]: �
 Would you like to define your development dependencies interactively? (yes/no) [yes]: Введите no и нажмите Enter.
 В самом конце Poetry покажет превью созданного файла и спросит:Do you confirm generation? (yes/no) [yes]: Нажмите Enter (или введите yes).
 
-3.добавляем файл
+4.добавляем файл
 gitignore
 
-4.добавляем в индекс (если Pycharm)не добавляет автоматически) файлы окрасятся в зеленый цвет
+5.добавляем в индекс (если Pycharm)не добавляет автоматически) файлы окрасятся в зеленый цвет
 git add .
 
-5. создаём первый commit (через меню ctrl + k) нельзя комитить в master, коммит только подготовки в окружение
+6. создаём первый commit (через меню ctrl + k) нельзя комитить в master, коммит только подготовки в окружение
 git commit -m "Настроено рабочее окружение и добавлен pytest"
+
+7. Создаём ветку Develop (для разработки)
+git checkout -b develop
+
+8. Создаём ветку feature (в ней ведем выполнение задач)
+git checkout -b feature
+
+9. создаём Python packeg : src и tests
+
+10. в пакете src создаём модуль : article.py
+
+11. делаем commit в текущей ветке feature
+git commit -m "добавили структуру и класс"
 
 
 """
