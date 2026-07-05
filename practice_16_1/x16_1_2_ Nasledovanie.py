@@ -40,25 +40,28 @@ print('\nуровень зарплаты обычного сотрудника')
 #===================
 emp1 = Employee('Ivan', 'Ivanov', 50000)
 print(emp1.pay)  # <<< 50000
+print(emp1.fullname()) # <<< Ivan Ivanov
 
 # ==================
 print('\nуровень зарплаты обычного сотрудника с коэф-ом повышения')
 #===================
 emp1.apply_raise()
 print(emp1.pay)  # <<< 52000
-
+print(emp1.fullname()) # <<< Ivan Ivanov
 
 # ==================
 print('\nуровень зарплаты разработчика')
 #===================
-emp1 = Developer('Petr', 'Petrov', 50000)  # с переопределением одного атрибута
-print(emp1.pay)  # <<< 50000
+dev1 = Developer('Petr', 'Petrov', 50000)  # с переопределением одного атрибута
+print(dev1.pay)  # <<< 50000
+print(dev1.fullname()) # <<< Petr Petrov
 
 # ==================
 print('\nуровень зарплаты разработчика с коэф-ом повышения')
 #===================
-emp1.apply_raise()
-print(emp1.pay)  # <<< 55000
+dev1.apply_raise()
+print(dev1.pay)  # <<< 55000
+print(dev1.fullname()) # <<< Petr Petrov
 
 
 
