@@ -26,6 +26,8 @@ class Product:
         """Строковое представление продукта"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
+################################################################
+################################################################
     def __add__(self, other: Any) -> float:
         """
         Сложение двух продуктов: сумма произведений цены на количество.
@@ -39,6 +41,7 @@ class Product:
         return (self.price * self.quantity) + (other.price * other.quantity)
 
 ####################################################
+# удалить изменен
 ####################################################
     # def __add__(self, other: Any) -> float:
     #     """Сложение двух продуктов: сумма произведений цены на количество"""
@@ -98,6 +101,61 @@ class Product:
             self.__price = new_price
 
 
+
+######################################################
+#добавлено ниже
+######################################################
+
+class Smartphone(Product):
+    """Класс для представления смартфона."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
+        """
+        Инициализация смартфона.
+        Использует конструктор базового класса Product для общих атрибутов
+        и расширяется специфичными для смартфона свойствами.
+        """
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency  # производительность
+        self.model = model            # модель
+        self.memory = memory          # объем встроенной памяти
+        self.color = color            # цвет
+
+
+class LawnGrass(Product):
+    """Класс для представления газонной травы."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        """
+        Инициализация газонной травы.
+        Использует конструктор базового класса Product для общих атрибутов
+        и расширяется специфичными для травы свойствами.
+        """
+        super().__init__(name, description, price, quantity)
+        self.country = country                       # страна-производитель
+        self.germination_period = germination_period  # срок прорастания
+        self.color = color                           # цвет
+####################################################################################
+
 class Category:
     """Класс для представления категории товаров."""
 
@@ -105,18 +163,38 @@ class Category:
     category_count: int = 0  # Количество категорий
     product_count: int = 0  # Количество уникальных товаров
 
+#######################################################################
+# изменения 16.1
+#######################################################################
+
     def __init__(self, name: str, description: str, products: List[Product]):
         """Инициализация и сохранение параметров каждого объекта"""
-
         # Название категории
         self.name = name
         # Описание категории
         self.description = description
-        # Приватный список объектов класса Product
-        self.__products = products
-        # Автоматическое увеличение счетчиков при создании новой категории (Класс.атрибут)
+        self.__products = []  # Изначально создаем пустой приватный список
+
+        # Запускаем все переданные продукты через метод add_product с проверкой типа
+        for product in products:
+            self.add_product(product)
+
         Category.category_count += 1
-        Category.product_count += len(products)
+
+    # def __init__(self, name: str, description: str, products: List[Product]):
+    #     """Инициализация и сохранение параметров каждого объекта"""
+    #
+    #     # Название категории
+    #     self.name = name
+    #     # Описание категории
+    #     self.description = description
+    #     # Приватный список объектов класса Product
+    #     self.__products = products
+    #     # Автоматическое увеличение счетчиков при создании новой категории (Класс.атрибут)
+    #     Category.category_count += 1
+    #     Category.product_count += len(products)
+
+#######################################################################
 
     def __str__(self) -> str:
         """Строковое представление категории"""
@@ -125,10 +203,28 @@ class Category:
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
 
+##################################################################
+# изменения 16.1
+##################################################################
+
     def add_product(self, product: Product) -> None:
-        """Метод для добавления товара в приватный список категории."""
+        """
+        Метод для добавления товара в приватный список категории.
+        Принимает только объекты класса Product или его наследников.
+        """
+        # 16.1.задание 3. Проверка типа с помощью isinstance
+        if not isinstance(product, Product):
+            raise TypeError("В категорию можно добавлять только продукты или их наследников")
+
         self.__products.append(product)
         Category.product_count += 1
+
+
+    # def add_product(self, product: Product) -> None:
+    #     """Метод для добавления товара в приватный список категории."""
+    #     self.__products.append(product)
+    #     Category.product_count += 1
+#####################################################################
 
     @property
     def products(self) -> str:
@@ -182,56 +278,3 @@ class CategoryIterator:
         else:
             # товары закончились
             raise StopIteration
-
-
-######################################################
-######################################################
-
-class Smartphone(Product):
-    """Класс для представления смартфона."""
-
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        price: float,
-        quantity: int,
-        efficiency: float,
-        model: str,
-        memory: int,
-        color: str,
-    ):
-        """
-        Инициализация смартфона.
-        Использует конструктор базового класса Product для общих атрибутов
-        и расширяется специфичными для смартфона свойствами.
-        """
-        super().__init__(name, description, price, quantity)
-        self.efficiency = efficiency  # производительность
-        self.model = model            # модель
-        self.memory = memory          # объем встроенной памяти
-        self.color = color            # цвет
-
-
-class LawnGrass(Product):
-    """Класс для представления газонной травы."""
-
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        price: float,
-        quantity: int,
-        country: str,
-        germination_period: str,
-        color: str,
-    ):
-        """
-        Инициализация газонной травы.
-        Использует конструктор базового класса Product для общих атрибутов
-        и расширяется специфичными для травы свойствами.
-        """
-        super().__init__(name, description, price, quantity)
-        self.country = country                       # страна-производитель
-        self.germination_period = germination_period  # срок прорастания
-        self.color = color                           # цвет
