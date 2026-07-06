@@ -27,13 +27,27 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: Any) -> float:
-        """Сложение двух продуктов: сумма произведений цены на количество"""
-        # Проверяем принадлежит ли объект other к классу Product (или к его подклассам). Не принадлежит - False
-        if not isinstance(other, Product):
-            # инициализируем ошибку если False
-            raise TypeError("Можно складывать только объекты класса Product")
+        """
+        Сложение двух продуктов: сумма произведений цены на количество.
+        Разрешено сложение товаров только одинаковых классов.
+        """
+        # 16.1 задание 2. Строгая проверка на совпадение классов с помощью type()
+        if type(self) is not type(other):
+            raise TypeError("Можно складывать товары только одинаковых классов продуктов")
+
         # Перемножаем цену на количество для обоих товаров и складываем
         return (self.price * self.quantity) + (other.price * other.quantity)
+
+####################################################
+####################################################
+    # def __add__(self, other: Any) -> float:
+    #     """Сложение двух продуктов: сумма произведений цены на количество"""
+    #     # Проверяем принадлежит ли объект other к классу Product (или к его подклассам). Не принадлежит - False
+    #     if not isinstance(other, Product):
+    #         # инициализируем ошибку если False
+    #         raise TypeError("Можно складывать только объекты класса Product")
+    #     # Перемножаем цену на количество для обоих товаров и складываем
+    #     return (self.price * self.quantity) + (other.price * other.quantity)
 
 
     @classmethod
@@ -168,3 +182,56 @@ class CategoryIterator:
         else:
             # товары закончились
             raise StopIteration
+
+
+######################################################
+######################################################
+
+class Smartphone(Product):
+    """Класс для представления смартфона."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
+        """
+        Инициализация смартфона.
+        Использует конструктор базового класса Product для общих атрибутов
+        и расширяется специфичными для смартфона свойствами.
+        """
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency  # производительность
+        self.model = model            # модель
+        self.memory = memory          # объем встроенной памяти
+        self.color = color            # цвет
+
+
+class LawnGrass(Product):
+    """Класс для представления газонной травы."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        """
+        Инициализация газонной травы.
+        Использует конструктор базового класса Product для общих атрибутов
+        и расширяется специфичными для травы свойствами.
+        """
+        super().__init__(name, description, price, quantity)
+        self.country = country                       # страна-производитель
+        self.germination_period = germination_period  # срок прорастания
+        self.color = color                           # цвет
