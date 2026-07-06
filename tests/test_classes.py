@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, CategoryIterator, Product, Smartphone, LawnGrass
+from src.classes import Category, CategoryIterator, LawnGrass, Product, Smartphone
 
 # ================================
 # запуск тестов
@@ -60,7 +60,9 @@ def reset_category_counts():
     Category.category_count = 0
     Category.product_count = 0
 
+
 # ========================================================
+
 
 def test_product_initialization(sample_products):  # в аргумент передаём фикстуру
     """Тест корректности инициализации объекта класса Product."""
@@ -274,7 +276,7 @@ def test_category_add_invalid_product_type_raises_error():
     """Задание 3. Тест запрета добавления некорректных типов в категорию через isinstance()."""
     category = Category("Тест", "Описание", [])
     with pytest.raises(TypeError):
-        category.add_product("Не объект продукта, а просто строка")
+        category.add_product("Не объект продукта, а просто строка")  # type: ignore[arg-type]
 
 
 def test_category_accepts_subclasses(sample_smartphone, sample_lawn_grass):

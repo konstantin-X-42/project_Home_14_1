@@ -26,7 +26,6 @@ class Product:
         """Строковое представление продукта"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-
     def __add__(self, other: Any) -> float:
         """
         Сложение двух продуктов: сумма произведений цены на количество.
@@ -38,7 +37,6 @@ class Product:
 
         # Перемножаем цену на количество для обоих товаров и складываем
         return (self.price * self.quantity) + (other.price * other.quantity)
-
 
     @classmethod
     def new_product(cls, product_data: dict[str, Any], products_list: Optional[list["Product"]] = None) -> "Product":
@@ -109,9 +107,9 @@ class Smartphone(Product):
         """
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency  # производительность
-        self.model = model            # модель
-        self.memory = memory          # объем встроенной памяти
-        self.color = color            # цвет
+        self.model = model  # модель
+        self.memory = memory  # объем встроенной памяти
+        self.color = color  # цвет
 
 
 class LawnGrass(Product):
@@ -133,9 +131,9 @@ class LawnGrass(Product):
         и расширяется специфичными для травы свойствами.
         """
         super().__init__(name, description, price, quantity)
-        self.country = country                       # страна-производитель
+        self.country = country  # страна-производитель
         self.germination_period = germination_period  # срок прорастания
-        self.color = color                           # цвет
+        self.color = color  # цвет
 
 
 class Category:
@@ -145,14 +143,13 @@ class Category:
     category_count: int = 0  # Количество категорий
     product_count: int = 0  # Количество уникальных товаров
 
-
     def __init__(self, name: str, description: str, products: List[Product]):
         """Инициализация и сохранение параметров каждого объекта"""
         # Название категории
         self.name = name
         # Описание категории
         self.description = description
-        self.__products = []  # Изначально создаем пустой приватный список
+        self.__products: List[Product] = []  # Изначально создаем пустой приватный список
 
         # Запускаем все переданные продукты через метод add_product с проверкой типа
         for product in products:
@@ -160,14 +157,12 @@ class Category:
 
         Category.category_count += 1
 
-
     def __str__(self) -> str:
         """Строковое представление категории"""
         # for берет каждый товар из приватного списка,
         # product.quantity - на каждом шаге цикла, забираем у текущего товара его количество и суммируем
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
-
 
     def add_product(self, product: Product) -> None:
         """
@@ -181,12 +176,11 @@ class Category:
         self.__products.append(product)
         Category.product_count += 1
 
-
     @property
     def products(self) -> str:
         """Геттер для вывода списка товаров в виде строки с использованием __str__ продуктов"""
         # Оптимизация: преобразуем каждый объект продукта в строку через str(product)
-#----------------------------
+        # ----------------------------
         # 1. Создаем пустой список, куда будем складывать готовые текстовые строки
         product_strings = []
 
@@ -205,14 +199,16 @@ class Category:
 
         # 4. Возвращаем готовый текст из метода наружу
         return result_text
-#----------------------------
-        # запись коротко
-        # return "\n".join(str(product) for product in self.__products)
+
+    # ----------------------------
+    # запись коротко
+    # return "\n".join(str(product) for product in self.__products)
 
     @property
     def get_products_list(self) -> list[Product]:
         """Дополнительный геттер для получения списка объектов (для итератора)"""
         return self.__products
+
 
 class CategoryIterator:
     """Класс для итерации по товарам конкретной категории."""
@@ -221,8 +217,8 @@ class CategoryIterator:
         self.products = category.get_products_list
         self.index = 0
 
-    def __iter__(self):
-        self.index = 0 # Сбрасываем индекс при начале новой итерации
+    def __iter__(self) -> "CategoryIterator":
+        self.index = 0  # Сбрасываем индекс при начале новой итерации
         return self
 
     def __next__(self) -> Product:
