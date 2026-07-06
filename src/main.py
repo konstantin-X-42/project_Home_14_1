@@ -1,5 +1,5 @@
 # Импортируем классы с учетом структуры ДЗ
-from src.classes import Category, Product
+from src.classes import Category, Product, Smartphone, LawnGrass
 
 # ================================
 # установка утилит isort black flake8 mypy

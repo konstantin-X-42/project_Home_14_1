@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, CategoryIterator, Product
+from src.classes import Category, CategoryIterator, Product, Smartphone, LawnGrass
 
 # ================================
 # запуск тестов
@@ -18,6 +18,35 @@ def sample_products():
     product2 = Product("Nokia", "Мобильный телефон", 3999.99, 3)
     product3 = Product("sd 128Гб", "карта памяти", 1750.20, 12)
     return [product1, product2, product3]
+
+
+@pytest.fixture
+def sample_smartphone():
+    """Фикстура для создания смартфона."""
+    return Smartphone(
+        name="iPhone 15",
+        description="Флагман",
+        price=100000.0,
+        quantity=2,
+        efficiency=4.5,
+        model="15 Pro",
+        memory=256,
+        color="Торнадо",
+    )
+
+
+@pytest.fixture
+def sample_lawn_grass():
+    """Фикстура для создания газонной травы."""
+    return LawnGrass(
+        name="Газон Канада",
+        description="Быстрорастущий",
+        price=500.0,
+        quantity=10,
+        country="Канада",
+        germination_period="14 дней",
+        color="Зеленый",
+    )
 
 
 # Когда написано @pytest.fixture(autouse=True), фреймворк pytest сканирует тестовый файл,
@@ -150,9 +179,9 @@ def test_product_price_decrease_cancel(sample_products, monkeypatch):
     assert product.price == 60000.0  # Цена осталась прежней
 
 
-# ==============
-# ТЕСТЫ 15.1
-# ==============
+# ======================================================
+# ТЕСТЫ 15.1 для строкового представления и итераторов
+# ======================================================
 
 
 def test_product_str(sample_products):
@@ -166,22 +195,6 @@ def test_category_str(sample_products):
     category = Category("Смартфоны", "Мобильные телефоны", [sample_products[0], sample_products[1]])
     # 8 шт (Samsung) + 3 шт (Nokia) = 11 шт всего на складе
     assert str(category) == "Смартфоны, количество продуктов: 11 шт."
-
-
-def test_product_add_assignment_example():
-    """Тест сложения двух продуктов (__add__) на примере данных из ТЗ."""
-    # Тестовые данные строго из условия Задания 2: 100 * 10 + 200 * 2 = 1400
-    product_a = Product("Товар A", "Описание A", 100.0, 10)
-    product_b = Product("Товар B", "Описание B", 200.0, 2)
-
-    assert product_a + product_b == 1400.0
-
-
-def test_product_add_type_error(sample_products):
-    """Тест, что сложение продукта с объектом другого типа вызывает TypeError."""
-    product = sample_products[0]
-    with pytest.raises(TypeError):
-        _ = product + 12345
 
 
 def test_category_iterator(sample_products):
@@ -211,3 +224,63 @@ def test_category_iterator_stop_iteration(sample_products):
     # Второй вызов должен вызвать StopIteration, так как товаров больше нет
     with pytest.raises(StopIteration):
         next(iterator)
+
+
+# ======================================================
+# ТЕСТЫ 16.1
+# ======================================================
+
+
+def test_smartphone_initialization(sample_smartphone):
+    """Задание 1. Тест инициализации подкласса Смартфон."""
+    assert sample_smartphone.name == "iPhone 15"
+    assert sample_smartphone.efficiency == 4.5
+    assert sample_smartphone.model == "15 Pro"
+    assert sample_smartphone.memory == 256
+    assert sample_smartphone.color == "Торнадо"
+
+
+def test_lawn_grass_initialization(sample_lawn_grass):
+    """Задание 1. Тест инициализации подкласса Газонная Трава."""
+    assert sample_lawn_grass.name == "Газон Канада"
+    assert sample_lawn_grass.country == "Канада"
+    assert sample_lawn_grass.germination_period == "14 дней"
+    assert sample_lawn_grass.color == "Зеленый"
+
+
+def test_product_add_assignment_example():
+    """Задание 2: Тест сложения двух продуктов (__add__) одного класса."""
+    product_a = Product("Товар A", "Описание A", 100.0, 10)
+    product_b = Product("Товар B", "Описание B", 200.0, 2)
+    assert product_a + product_b == 1400.0
+
+
+def test_product_add_type_error(sample_products, sample_smartphone, sample_lawn_grass):
+    """Задание 2: Тест запрета сложения объектов разных классов через type()."""
+    # Базовый продукт + число -> TypeError
+    with pytest.raises(TypeError):
+        _ = sample_products[0] + 12345
+
+    # Смартфон + Газонная трава -> TypeError
+    with pytest.raises(TypeError):
+        _ = sample_smartphone + sample_lawn_grass
+
+    # Смартфон + Базовый продукт -> TypeError
+    with pytest.raises(TypeError):
+        _ = sample_smartphone + sample_products[0]
+
+
+def test_category_add_invalid_product_type_raises_error():
+    """Задание 3: Тест запрета добавления некорректных типов в категорию через isinstance()."""
+    category = Category("Тест", "Описание", [])
+    with pytest.raises(TypeError):
+        category.add_product("Не объект продукта, а просто строка")
+
+
+def test_category_accepts_subclasses(sample_smartphone, sample_lawn_grass):
+    """Задание 3: Тест успешного добавления наследников Product в категорию."""
+    category = Category("Микс", "Описание", [sample_smartphone])
+    assert Category.product_count == 1
+
+    category.add_product(sample_lawn_grass)
+    assert Category.product_count == 2
