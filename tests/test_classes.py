@@ -249,14 +249,14 @@ def test_lawn_grass_initialization(sample_lawn_grass):
 
 
 def test_product_add_assignment_example():
-    """Задание 2: Тест сложения двух продуктов (__add__) одного класса."""
+    """Задание 2. Тест сложения двух продуктов (__add__) одного класса."""
     product_a = Product("Товар A", "Описание A", 100.0, 10)
     product_b = Product("Товар B", "Описание B", 200.0, 2)
     assert product_a + product_b == 1400.0
 
 
 def test_product_add_type_error(sample_products, sample_smartphone, sample_lawn_grass):
-    """Задание 2: Тест запрета сложения объектов разных классов через type()."""
+    """Задание 2. Тест запрета сложения объектов разных классов через type()."""
     # Базовый продукт + число -> TypeError
     with pytest.raises(TypeError):
         _ = sample_products[0] + 12345
@@ -271,14 +271,14 @@ def test_product_add_type_error(sample_products, sample_smartphone, sample_lawn_
 
 
 def test_category_add_invalid_product_type_raises_error():
-    """Задание 3: Тест запрета добавления некорректных типов в категорию через isinstance()."""
+    """Задание 3. Тест запрета добавления некорректных типов в категорию через isinstance()."""
     category = Category("Тест", "Описание", [])
     with pytest.raises(TypeError):
         category.add_product("Не объект продукта, а просто строка")
 
 
 def test_category_accepts_subclasses(sample_smartphone, sample_lawn_grass):
-    """Задание 3: Тест успешного добавления наследников Product в категорию."""
+    """Задание 3. Тест успешного добавления наследников Product в категорию."""
     category = Category("Микс", "Описание", [sample_smartphone])
     assert Category.product_count == 1
 

@@ -26,8 +26,7 @@ class Product:
         """Строковое представление продукта"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-################################################################
-################################################################
+
     def __add__(self, other: Any) -> float:
         """
         Сложение двух продуктов: сумма произведений цены на количество.
@@ -39,18 +38,6 @@ class Product:
 
         # Перемножаем цену на количество для обоих товаров и складываем
         return (self.price * self.quantity) + (other.price * other.quantity)
-
-####################################################
-# удалить изменен
-####################################################
-    # def __add__(self, other: Any) -> float:
-    #     """Сложение двух продуктов: сумма произведений цены на количество"""
-    #     # Проверяем принадлежит ли объект other к классу Product (или к его подклассам). Не принадлежит - False
-    #     if not isinstance(other, Product):
-    #         # инициализируем ошибку если False
-    #         raise TypeError("Можно складывать только объекты класса Product")
-    #     # Перемножаем цену на количество для обоих товаров и складываем
-    #     return (self.price * self.quantity) + (other.price * other.quantity)
 
 
     @classmethod
@@ -101,13 +88,8 @@ class Product:
             self.__price = new_price
 
 
-
-######################################################
-#добавлено ниже
-######################################################
-
 class Smartphone(Product):
-    """Класс для представления смартфона."""
+    """16.1 Класс для представления смартфона."""
 
     def __init__(
         self,
@@ -133,7 +115,7 @@ class Smartphone(Product):
 
 
 class LawnGrass(Product):
-    """Класс для представления газонной травы."""
+    """16.1 Класс для представления газонной травы."""
 
     def __init__(
         self,
@@ -154,7 +136,7 @@ class LawnGrass(Product):
         self.country = country                       # страна-производитель
         self.germination_period = germination_period  # срок прорастания
         self.color = color                           # цвет
-####################################################################################
+
 
 class Category:
     """Класс для представления категории товаров."""
@@ -163,9 +145,6 @@ class Category:
     category_count: int = 0  # Количество категорий
     product_count: int = 0  # Количество уникальных товаров
 
-#######################################################################
-# изменения 16.1
-#######################################################################
 
     def __init__(self, name: str, description: str, products: List[Product]):
         """Инициализация и сохранение параметров каждого объекта"""
@@ -181,20 +160,6 @@ class Category:
 
         Category.category_count += 1
 
-    # def __init__(self, name: str, description: str, products: List[Product]):
-    #     """Инициализация и сохранение параметров каждого объекта"""
-    #
-    #     # Название категории
-    #     self.name = name
-    #     # Описание категории
-    #     self.description = description
-    #     # Приватный список объектов класса Product
-    #     self.__products = products
-    #     # Автоматическое увеличение счетчиков при создании новой категории (Класс.атрибут)
-    #     Category.category_count += 1
-    #     Category.product_count += len(products)
-
-#######################################################################
 
     def __str__(self) -> str:
         """Строковое представление категории"""
@@ -203,9 +168,6 @@ class Category:
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
 
-##################################################################
-# изменения 16.1
-##################################################################
 
     def add_product(self, product: Product) -> None:
         """
@@ -219,12 +181,6 @@ class Category:
         self.__products.append(product)
         Category.product_count += 1
 
-
-    # def add_product(self, product: Product) -> None:
-    #     """Метод для добавления товара в приватный список категории."""
-    #     self.__products.append(product)
-    #     Category.product_count += 1
-#####################################################################
 
     @property
     def products(self) -> str:
