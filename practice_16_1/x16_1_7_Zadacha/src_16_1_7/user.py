@@ -21,8 +21,8 @@
 
 from task import Task
 # from .task import Task
-# from practice_15_1.x15_1_9_Zadacha.src_15_1_9.task import Task
-# from src_15_1_9.task import Task
+# from practice_15_1.x15_1_9_Zadacha.src_16_1_7.task import Task
+# from src_16_1_7.task import Task
 
 
 class User:

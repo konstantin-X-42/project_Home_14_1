@@ -3,8 +3,8 @@ from task import Task
 from user import User
 from  task_iterator import TaskIterator
 
-# from src_15_1_9.task import Task
-# from src_15_1_9.user import User
+# from src_16_1_7.task import Task
+# from src_16_1_7.user import User
 
 
 # @pytest.fixture — это декоратор, превращает функцию в изолированный тестовый объект

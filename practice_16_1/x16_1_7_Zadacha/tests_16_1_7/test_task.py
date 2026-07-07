@@ -3,11 +3,11 @@ from pyexpat.errors import messages
 
 from black import assert_equivalent
 from task import Task
-# from src_15_1_9.task import Task
+# from src_16_1_7.task import Task
 
 # ================================
 # запуск тестов
-# poetry run pytest practice_14_2/x14_2_8_Zadacha/tests_15_1_9/test_task.py
+# poetry run pytest practice_14_2/x14_2_8_Zadacha/tests_16_1_7/test_task.py
 # ================================
 
 
