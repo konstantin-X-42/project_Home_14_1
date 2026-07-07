@@ -73,6 +73,15 @@ developer.go_to_vacation()
 # Переопределение и расширение методов родительского класса в дочернем классе на практике
 print("\n- ПЕРЕОПРЕДЕЛЕНИЕ и РАСШИРЕНИЕ -")
 # =========================================================
+"""
+Задача
+Добавить разработчикам атрибут «язык программирования».
+
+Флоу решения:
+1. Создать инициализатор
+2. Вызвать super()
+3. Дописать атрибут prog_lang
+"""
 
 class Employee:
     raise_amt = 1.04
@@ -90,18 +99,26 @@ class Employee:
 
 
 class Developer(Employee):
-    # raise_amt = 1.1
+    raise_amt = 1.1  # переопределение атрибута в классе
 
-    def __init__(self, first, last, pay, prog_lang):
-        super().__init__(first, last, pay)
+
+    def __init__(self, first, last, pay, prog_lang):    # расширение функционала
+        super().__init__(first, last, pay)   # через ф. super() передаём атрибуты с родительского класса
+        # self.first = first # строка при использовании ф. super() НЕ НУЖНА
+        # self.last = last # строка при использовании ф. super() НЕ НУЖНА
+        # self.pay = pay # строка при использовании ф. super() НЕ НУЖНА
         self.prog_lang = prog_lang
 
-    def apply_raise(self):
-        self.pay = int(self.pay * 1.1)
+
+print("- Сотрудник -")
+emp1 = Employee('Ivan', 'Ivanov', 50000)
+print(emp1.pay)
+emp1.apply_raise()
+print(emp1.pay)
 
 
-dev1 = Developer(first='Petr', last='Petrov', pay=50000, prog_lang='python')
-print(dev1.first)
-print(dev1.last)
+print("\n- Разработчик -")
+dev1 = Developer('Petr', 'Petrov', 50000, 'python')
 print(dev1.pay)
-print(dev1.prog_lang)
+dev1.apply_raise()
+print(dev1.pay)
