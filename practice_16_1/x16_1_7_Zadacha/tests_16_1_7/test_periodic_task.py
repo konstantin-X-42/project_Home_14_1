@@ -1,6 +1,10 @@
 import pytest
 from practice_16_1.x16_1_7_Zadacha.tests_16_1_7.conftest import task_periodic1
 
+# ================================
+# запуск тестов
+# poetry run pytest practice_16_1/x16_1_7_Zadacha/tests_16_1_7/test_periodic_task.py
+# ================================
 
 def test_periodic_task_init(task_periodic1):
     assert task_periodic1.name == 'Купить огурцы'

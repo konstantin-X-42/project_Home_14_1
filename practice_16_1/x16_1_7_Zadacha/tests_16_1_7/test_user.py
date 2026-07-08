@@ -67,3 +67,17 @@ def test_task_iterator(task_iterator):
 
     with pytest.raises(StopIteration):
         next(task_iterator)
+
+
+def test_user_task_setter_error(first_user, task):
+    """ проверяем что возбуждается ошибка при неверном количестве списка объектов"""
+    # assert first_user.task_list = 1 # проверяем что возбуждается ошибка
+    with pytest.raises(TypeError):
+        first_user.task_list = 1
+
+
+def test_user_task_list_setter_periodic_task(first_user, task_periodic1):
+    first_user.task_list = task_periodic1
+    # print(first_user.task_in_list[-1].name) == "Купить огурцы" # смотрим что возвращает последняя задача
+    assert first_user.task_in_list[-1].name == "Купить огурцы"
+
