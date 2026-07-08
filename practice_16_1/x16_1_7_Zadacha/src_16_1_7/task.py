@@ -20,7 +20,9 @@ class Task:
         return f"{self.name}, Статус выполнения: {self.status}, Дата создания: {self.created_at}"
 
     def __add__(self, other):
-        return self.run_time + other.run_time
+        if type(other) is Task:   # проверка, что передаются только экземпляры класса Task
+            return self.run_time + other.run_time
+        raise TypeError  # если атрибут иного класса - возбуждаем ошибку
 
     @classmethod
     def new_task(cls, name, description, status="Ожидает старта", created_at=None):
@@ -62,4 +64,8 @@ if __name__ == "__main__":
     task2.created_at = "29.06.2026"
     print(task2.created_at)
 
-    print(task + task2)
+# ==============================================
+# проверяем правильность обработки соответствия атрибутов текущему классу
+# ==============================================
+    print(task + task2)      # >>> 60
+    # task + 5               # >>> ошибка raise TypeError - если атрибут иного класса - возбуждаем ошибку

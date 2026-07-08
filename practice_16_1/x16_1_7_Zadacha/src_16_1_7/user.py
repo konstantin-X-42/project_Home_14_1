@@ -19,6 +19,29 @@
 5. Напишите тесты на новый функционал
 """
 
+"""
+Задачи "Наследование"
+1. Для задач необходимо выделить две отдельные категории и создать под них классы:
+  1.1 Периодическая задача (PeriodicTask)
+      Помимо имеющихся свойств, необходимо добавить следующие:
+    - дата старта,
+    - дата окончания,
+    - периодичность,
+  1.2 Задача с дедлайном выполнения (DeadlineTask)
+      Помимо имеющихся свойств, необходимо добавить следующие:
+    - дедлайн выполнения,
+Эти оба класса должны быть классами-наследниками от исходного класса Task.
+
+2. Доработайте функционал сложения таким образом, чтобы можно было складывать задачи только из одинаковых классов.
+   То есть новый функционал не должен давать возможность сложить периодическую задачу и задачу с дедлайном,
+   вместо этого, должна быть выдана ошибка TypeError.
+   
+3. Доработайте метод, который добавляет задачу пользователю таким образом, чтобы не было возможности добавить
+   вместо задачи или ее наследников любой другой объект.
+
+4. Напишите тесты на новый функционал.
+"""
+
 from practice_16_1.x16_1_7_Zadacha.src_16_1_7.task import Task
 # from task import Task
 # from .task import Task
@@ -55,8 +78,12 @@ class User:
 
     @task_list.setter
     def task_list(self, task: Task):
-        self.__task_list.append(task)
-        User.all_tasks_count += 1
+        """ Добавление листа __task_list и увеличение значения задач"""
+        if isinstance(task, Task):   # проверка, что передаются только экземпляры класса Task
+            self.__task_list.append(task)
+            User.all_tasks_count += 1
+        else:
+            raise TypeError  # если атрибут иного класса - возбуждаем ошибку
 
     @property
     def task_in_list(self):
@@ -72,18 +99,18 @@ if __name__ == "__main__":
     user = User("User", "user@mail.ru", "User", "Userov", [task1, task2, task3, task4])
 
     print(user.username)
-    print(user.email)
-    print(user.first_name)
-    print(user.last_name)
-    print(user.task_list)
+    print(user.email)            # >>> 1
+    print(user.first_name)       # >>> 4
+    print(user.last_name)        # >>> Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: 08.07.2026
+    print(user.task_list)        # >>> Купить помидоры, Статус выполнения: Ожидает старта, Дата создания: 08.07.2026
 
-    print(user.users_count)
-    print(User.all_tasks_count)
+    print(user.users_count)      # >>> Купить лук, Статус выполнения: Ожидает старта, Дата создания: 08.07.2026
+    print(User.all_tasks_count)  # >>> Купить перец, Статус выполнения: Ожидает старта, Дата создания: 08.07.2026
 
     task5 = Task("Купить огурцы", "Купить огурцы для салата")
     user.task_list = task5
 
-    print(user.task_list)
-    print(User.all_tasks_count)
+    print(user.task_list)        # >>> Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: 08.07.2026
+    print(User.all_tasks_count)  # >>> 5
 
-    print(user)
+    print(user)                  # >>> Userov User, Email: user@mail.ru, Всего задач в списке: 5
