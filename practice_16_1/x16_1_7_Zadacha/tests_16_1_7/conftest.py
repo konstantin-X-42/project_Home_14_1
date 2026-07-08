@@ -1,4 +1,3 @@
-# import pytest
 # from task import Task
 # from user import User
 # from  task_iterator import TaskIterator
@@ -7,6 +6,8 @@ import pytest
 from practice_16_1.x16_1_7_Zadacha.src_16_1_7.task import Task
 from practice_16_1.x16_1_7_Zadacha.src_16_1_7.user import User
 from practice_16_1.x16_1_7_Zadacha.src_16_1_7.task_iterator import TaskIterator
+from practice_16_1.x16_1_7_Zadacha.src_16_1_7.periodic_task import PeriodicTask
+from practice_16_1.x16_1_7_Zadacha.src_16_1_7.dedline_task import DeadlineTask
 
 # from src_16_1_7.task import Task
 # from src_16_1_7.user import User
@@ -65,3 +66,40 @@ def task_with_runtime2():
 @pytest.fixture
 def task_iterator(second_user):
     return TaskIterator(second_user)
+
+
+@pytest.fixture
+def task_periodic1():
+    return PeriodicTask("Купить огурцы",
+                        "Купить огурцы для салата",
+                        "01.01.2026",
+                        "01.01.2026",
+                        run_time=60,
+                        created_at="12.06.2026")
+
+
+@pytest.fixture
+def task_periodic2():
+    return PeriodicTask("Купить помидоры",
+                        "Купить помидоры для салата",
+                        "01.01.2026",
+                        "01.01.2026",
+                        run_time=60,
+                        created_at="12.06.2026")
+
+
+@pytest.fixture
+def task_deadline1():
+    return DeadlineTask("Купить перец",
+                        "Купить перец для салата",
+                        "15.07.2026",
+                        run_time=60,
+                        created_at="12.06.2026")
+
+@pytest.fixture
+def task_deadline2():
+    return DeadlineTask("Купить лук",
+                        "Купить лук для салата",
+                        "15.07.2026",
+                        run_time=60,
+                        created_at="12.06.2026")
