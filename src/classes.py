@@ -1,24 +1,40 @@
-# from itertools import product
+from abc import ABC, abstractmethod
 from typing import Any, List, Optional
 
-# from openpyxl.styles.builtins import total
+
+class BaseProduct(ABC):
+    """Базовый абстрактный класс для всех продуктов проекта."""
+
+    @classmethod
+    @abstractmethod
+    def new_product(cls, product_data: dict[str, Any], products_list: Optional[list[Any]] = None) -> Any:
+        """Абстрактный класс-метод для создания нового товара."""
+        pass
+
+    @property
+    @abstractmethod
+    def price(self) -> float:
+        """Абстрактный геттер для цены."""
+        pass
+
+    @price.setter
+    @abstractmethod
+    def price(self, new_price: float) -> None:
+        """Абстрактный сеттер для цены."""
+        pass
 
 
-class Product:
+class Product(BaseProduct):
     """Класс для представления товара."""
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         """Инициализация и сохранение параметров каждого объекта"""
-
         # Название товара
         self.name = name
-
         # Описание товара
         self.description = description
-
         # Цена товара через приватный атрибут
         self.__price = price
-
         # Количество в наличии
         self.quantity = quantity
 
@@ -34,7 +50,6 @@ class Product:
         # 16.1 задание 2. Строгая проверка на совпадение классов с помощью type()
         if type(self) is not type(other):
             raise TypeError("Можно складывать товары только одинаковых классов продуктов")
-
         # Перемножаем цену на количество для обоих товаров и складываем
         return (self.price * self.quantity) + (other.price * other.quantity)
 
@@ -48,18 +63,13 @@ class Product:
         price = float(product_data.get("price", 0.0))
         quantity = int(product_data.get("quantity", 0))
 
-        # Если передан список существующих товаров, проверяем на дубликаты
         if products_list:
             for existing_product in products_list:
                 if existing_product.name == name:
-                    # 1. Складываем количество в наличии
                     existing_product.quantity += quantity
-                    # 2. Выбираем более высокую цену, используем СЕТТЕР для сравнения и изменения цены
                     if price > existing_product.price:
                         existing_product.price = price
-                    # Возвращаем обновленный существующий товар
                     return existing_product
-        # Если дубликат не найден или список не передан, создаем новый объект
         return cls(name, description, price, quantity)
 
     @property
@@ -73,7 +83,6 @@ class Product:
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
-        # Если цена понижается, запрашиваем подтверждение пользователя
         if new_price < self.__price:
             user_answer = input("Вы уверены, что хотите понизить цену? (y/n): ").strip().lower()
             if user_answer == "y":
@@ -82,9 +91,12 @@ class Product:
             else:
                 print("Действие отменено. Цена осталась прежней.")
         else:
-            # Если цена повышается или не меняется, обновляем без вопросов
             self.__price = new_price
 
+
+
+
+########################################################################################################
 
 class Smartphone(Product):
     """16.1 Класс для представления смартфона."""
