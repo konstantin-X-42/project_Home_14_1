@@ -182,7 +182,7 @@ def test_product_price_decrease_cancel(sample_products, monkeypatch):
 
 
 # ======================================================
-# ТЕСТЫ 15.1 для строкового представления и итераторов
+# ТЕСТЫ 15.1 Магические методы и Итераторы
 # ======================================================
 
 
@@ -229,7 +229,7 @@ def test_category_iterator_stop_iteration(sample_products):
 
 
 # ======================================================
-# ТЕСТЫ 16.1
+# ТЕСТЫ 16.1 Наследование и Полиморфизм
 # ======================================================
 
 
@@ -272,15 +272,20 @@ def test_product_add_type_error(sample_products, sample_smartphone, sample_lawn_
         _ = sample_smartphone + sample_products[0]
 
 
+# ========================================================
+# ТЕСТЫ 16.2 Множественное наследование
+# ========================================================
+
+
 def test_category_add_invalid_product_type_raises_error():
-    """Задание 3. Тест запрета добавления некорректных типов в категорию через isinstance()."""
+    """Тест запрета добавления некорректных типов в категорию через isinstance()."""
     category = Category("Тест", "Описание", [])
     with pytest.raises(TypeError):
         category.add_product("Не объект продукта, а просто строка")  # type: ignore[arg-type]
 
 
 def test_category_accepts_subclasses(sample_smartphone, sample_lawn_grass):
-    """Задание 3. Тест успешного добавления наследников Product в категорию."""
+    """Тест успешного добавления наследников Product в категорию."""
     category = Category("Микс", "Описание", [sample_smartphone])
     assert Category.product_count == 1
 

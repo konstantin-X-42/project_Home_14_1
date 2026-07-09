@@ -24,7 +24,28 @@ class BaseProduct(ABC):
         pass
 
 
-class Product(BaseProduct):
+# 16.2 задание 1, 2
+class PrintMixin:
+    """Класс миксин для логирования создания объектов."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Конструктор миксина, печатающий информацию об объекте в консоль."""
+        # Выводим строковое представление объекта в консоль
+        print(self.__repr__())
+        # Передаем управление дальше по цепочке MRO для инициализации объекта
+        super().__init__(*args, **kwargs)
+
+    def __repr__(self) -> str:
+        """Магический метод для детального текстового представления объекта."""
+        # Получаем имя текущего класса динамически
+        class_name = self.__class__.__name__
+        # Динамически собираем все значения атрибутов через __dict__
+        attrs = ", ".join(f"'{v}'" if isinstance(v, str) else str(v) for v in self.__dict__.values())
+        return f"{class_name}({attrs})"
+
+
+# 16.2 задание2 Добавляем миксин в цепочку наследования класса Product (справа)
+class Product(BaseProduct, PrintMixin):
     """Класс для представления товара."""
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
@@ -37,6 +58,8 @@ class Product(BaseProduct):
         self.__price = price
         # Количество в наличии
         self.quantity = quantity
+        # вызываем super().__init__() без аргументов, чтобы отработал конструктор миксина и распечатал готовый объект!
+        super().__init__()
 
     def __str__(self) -> str:
         """Строковое представление продукта"""
@@ -94,9 +117,8 @@ class Product(BaseProduct):
             self.__price = new_price
 
 
-
-
 ########################################################################################################
+
 
 class Smartphone(Product):
     """16.1 Класс для представления смартфона."""
@@ -242,3 +264,32 @@ class CategoryIterator:
         else:
             # товары закончились
             raise StopIteration
+
+
+# 16.2 доп.заание
+class BaseOrderCategory(ABC):
+    """Абстрактный базовый класс для Категорий и Заказов."""
+
+    @abstractmethod
+    def __str__(self) -> str:
+        """Обязательное строковое представление для наследников."""
+        pass
+
+
+class Order(BaseOrderCategory):
+    """Класс для представления заказа одного товара."""
+
+    def __init__(self, product: Product, quantity: int):
+        """Инициализация заказа."""
+        # 16.1 проверка типа. Заказ может принимать только продукты или их наследников
+        if not isinstance(product, Product):
+            raise TypeError("В заказ можно добавить только продукт или его наследника")
+
+        self.product = product
+        self.quantity = quantity
+        # Итоговая стоимость рассчитывается автоматически при создании
+        self.total_cost = product.price * quantity
+
+    def __str__(self) -> str:
+        """Строковое представление заказа."""
+        return f"Заказ: {self.product.name}, {self.quantity} шт. Итоговая стоимость: {self.total_cost} руб."
