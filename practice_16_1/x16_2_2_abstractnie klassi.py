@@ -21,7 +21,7 @@ class Employee(ABC):
 class Develop(Employee):
 
     def work(self):
-        print("Write some code")
+        print('Write some code')
 
     def code(self):
         pass
@@ -30,7 +30,7 @@ class Develop(Employee):
 class Accountant(Employee):
 
     def work(self):
-        print("Counting")
+        print('Counting')
 
 
 dev_1 = Develop()
