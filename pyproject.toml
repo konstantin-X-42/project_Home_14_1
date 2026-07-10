@@ -61,3 +61,6 @@ pythonpath = ["."]
 
 [tool.poetry]
 package-mode = false
+
+[tool.coverage.run]
+omit = ["src/main.py"]  # исключен из статистики покрытия тестов модуль main.py

@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, CategoryIterator, LawnGrass, Product, Smartphone
+from src.classes import Category, CategoryIterator, LawnGrass, Order, Product, Smartphone
 
 # ================================
 # запуск тестов
@@ -8,6 +8,9 @@ from src.classes import Category, CategoryIterator, LawnGrass, Product, Smartpho
 
 # запуск всех тестов в проекте tests
 # poetry run pytest tests -v
+
+# запуск всех тестов с покрытием кода
+# poetry run pytest --cov=src tests/
 # ================================
 
 
@@ -182,7 +185,7 @@ def test_product_price_decrease_cancel(sample_products, monkeypatch):
 
 
 # ======================================================
-# ТЕСТЫ 15.1 для строкового представления и итераторов
+# ТЕСТЫ 15.1 Магические методы и Итераторы
 # ======================================================
 
 
@@ -229,7 +232,7 @@ def test_category_iterator_stop_iteration(sample_products):
 
 
 # ======================================================
-# ТЕСТЫ 16.1
+# ТЕСТЫ 16.1 Наследование и Полиморфизм
 # ======================================================
 
 
@@ -272,17 +275,64 @@ def test_product_add_type_error(sample_products, sample_smartphone, sample_lawn_
         _ = sample_smartphone + sample_products[0]
 
 
+# ========================================================
+# ТЕСТЫ 16.2 Множественное наследование
+# ========================================================
+
+
 def test_category_add_invalid_product_type_raises_error():
-    """Задание 3. Тест запрета добавления некорректных типов в категорию через isinstance()."""
+    """Тест запрета добавления некорректных типов в категорию через isinstance()."""
     category = Category("Тест", "Описание", [])
     with pytest.raises(TypeError):
         category.add_product("Не объект продукта, а просто строка")  # type: ignore[arg-type]
 
 
 def test_category_accepts_subclasses(sample_smartphone, sample_lawn_grass):
-    """Задание 3. Тест успешного добавления наследников Product в категорию."""
+    """Тест успешного добавления наследников Product в категорию."""
     category = Category("Микс", "Описание", [sample_smartphone])
     assert Category.product_count == 1
 
     category.add_product(sample_lawn_grass)
     assert Category.product_count == 2
+
+
+# ========================================================
+# ТЕСТЫ 16.2 на ДОП.задание Класс Заказ (Order) и Абстрактные классы
+# ========================================================
+
+
+def test_order_initialization(sample_products):
+    """Тест успешного создания заказа и автоматического расчета стоимости."""
+    product = sample_products[0]  # Samsung (60000.0 руб)
+    order = Order(product, 3)
+
+    assert order.product == product
+    assert order.quantity == 3
+    # 60000.0 * 3 = 180000.0
+    assert order.total_cost == 180000.0
+
+
+def test_order_initialization_with_subclass(sample_smartphone):
+    """Тест создания заказа с использованием наследника Product (Smartphone)."""
+    # Смартфон iPhone 15 (100000.0 руб)
+    order = Order(sample_smartphone, 2)
+
+    assert order.product == sample_smartphone
+    assert order.quantity == 2
+    assert order.total_cost == 200000.0
+
+
+def test_order_invalid_product_type_raises_error():
+    """Тест запрета создания заказа с некорректным типом данных."""
+    with pytest.raises(TypeError):
+        # Передаем строку вместо объекта Product
+        _ = Order("Просто строка вместо товара", 5)  # type: ignore[arg-type]
+
+
+def test_order_str(sample_products):
+    """Тест строкового представления заказа (__str__)."""
+    product = sample_products[1]  # Nokia (3999.99 руб)
+    order = Order(product, 2)
+
+    expected_str = "Заказ: Nokia, 2 шт. Итоговая стоимость: 7999.98 руб."
+    assert str(order) == expected_str
