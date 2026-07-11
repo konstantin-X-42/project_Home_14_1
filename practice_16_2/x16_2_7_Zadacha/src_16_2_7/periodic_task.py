@@ -1,4 +1,4 @@
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.task import Task
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.task import Task
 
 class PeriodicTask(Task):
     """ Класс периодической задачи """

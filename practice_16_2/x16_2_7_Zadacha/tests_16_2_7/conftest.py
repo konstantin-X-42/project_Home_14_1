@@ -1,14 +1,14 @@
 import pytest
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.task import Task
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.user import User
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.task_iterator import TaskIterator
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.periodic_task import PeriodicTask
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.dedline_task import DeadlineTask
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.task import Task
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.user import User
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.task_iterator import TaskIterator
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.periodic_task import PeriodicTask
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.dedline_task import DeadlineTask
 
 # from task import Task
 # from user import User
-# from src_16_1_7.task import Task
-# from src_16_1_7.user import User
+# from src_16_2_7.task import Task
+# from src_16_2_7.user import User
 # from  task_iterator import TaskIterator
 
 # @pytest.fixture — это декоратор, превращает функцию в изолированный тестовый объект

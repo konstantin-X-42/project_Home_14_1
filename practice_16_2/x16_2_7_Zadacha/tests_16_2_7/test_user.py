@@ -1,8 +1,8 @@
 import pytest
-from practice_16_1.x16_1_7_Zadacha.src_16_1_7.user import User
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.user import User
 
 # from user import User
-# from src_16_1_7.user import User
+# from src_16_2_7.user import User
 
 
 # ================================
@@ -10,10 +10,10 @@ from practice_16_1.x16_1_7_Zadacha.src_16_1_7.user import User
 # poetry add pytest-cov --group dev
 # ================================
 # запуск тестов
-# poetry run pytest practice_16_1/x16_1_7_Zadacha/tests_16_1_7/test_user.py
+# poetry run pytest practice_16_1/x16_2_7_Zadacha/tests_16_2_7/test_user.py
 # ================================
 # запуск тестов с покрытием
-# poetry run pytest practice_15_1/x15_1_9_Zadacha/tests_16_1_7/test_user.py --cov=practice_15_1/x15_1_9_Zadacha/src_16_1_7 --cov-report=term-missing
+# poetry run pytest practice_15_1/x15_1_9_Zadacha/tests_16_2_7/test_user.py --cov=practice_15_1/x15_1_9_Zadacha/src_16_2_7 --cov-report=term-missing
 # ================================
 
 
