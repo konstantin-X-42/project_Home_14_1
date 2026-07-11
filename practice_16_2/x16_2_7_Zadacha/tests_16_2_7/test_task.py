@@ -28,7 +28,9 @@ def test_task_create():
 def test_task_update(capsys, task):
     task.created_at = "29.06.2025"
     message = capsys.readouterr()
-    assert message.out.strip() == "Нельзя изменить дату создания на дату из прошлого"
+    # split("\n")[-1] - разрезает текст на список строк везде, где встречается перенос строки (\n),
+    # [-1] - берет самый последний элемент из этого списка (то есть последнюю строку)
+    assert message.out.strip().split("\n")[-1] == "Нельзя изменить дату создания на дату из прошлого"
 
     task.created_at = datetime.datetime.now().date().strftime("%d.%m.%Y")
     assert task.created_at == datetime.datetime.now().date().strftime("%d.%m.%Y")

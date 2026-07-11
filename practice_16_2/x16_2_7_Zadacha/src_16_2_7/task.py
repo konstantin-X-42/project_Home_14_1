@@ -1,7 +1,9 @@
 import datetime
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.base_task import BaseTask
+from practice_16_2.x16_2_7_Zadacha.src_16_2_7.print_mixin import PrintMixin
 
 
-class Task:
+class Task(BaseTask, PrintMixin):
     name: str
     description: str
     status: str
@@ -14,6 +16,7 @@ class Task:
         self.status = status
         self.__created_at = created_at or datetime.date.today().strftime("%d.%m.%Y")
         self.run_time = run_time
+        super().__init__()
 
     # логические методы реализуются в начале класса
     def __str__(self):
@@ -47,22 +50,22 @@ class Task:
 if __name__ == "__main__":
     task = Task("Купить огурцы", "Купить огурцы для салата", run_time=60)
 
-    print(task.name)
-    print(task.description)
-    print(task.status)
-    print(task.created_at)
+    print(task.name)                 # >>> Купить огурцы
+    print(task.description)          # >>> Купить огурцы для салата
+    print(task.status)               # >>> Ожидает старта
+    print(task.created_at)           # >>> 11.07.2026
 
     task2 = Task.new_task("Купить билеты", "Купить билеты на самолёт")
 
-    print(task2.name)
-    print(task2.description)
-    print(task2.status)
-    print(task2.created_at)
+    print(task2.name)                # >>> Купить билеты
+    print(task2.description)         # >>> Купить билеты на самолёт
+    print(task2.status)              # >>> Ожидает старта
+    print(task2.created_at)          # >>> 11.07.2026
 
-    task2.created_at = "29.05.2026"
-    print(task2.created_at)
-    task2.created_at = "29.06.2026"
-    print(task2.created_at)
+    task2.created_at = "29.05.2026"  # >>> Нельзя изменить дату создания на дату из прошлого
+    print(task2.created_at)          # >>> 11.07.2026
+    task2.created_at = "29.06.2026"  # >>> Нельзя изменить дату создания на дату из прошлого
+    print(task2.created_at)          # >>> 11.07.2026
 
 # ==============================================
 # проверяем правильность обработки соответствия атрибутов текущему классу
