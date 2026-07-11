@@ -1,0 +1,16 @@
+[
+  {
+    "username": "alex",
+    "email": "alex@gmail.com",
+    "first_name": "Alex",
+    "last_name": "Fomin",
+    "task_list": [
+      {
+        "name": "Купить батон",
+        "description": "Купить батон когда будешь в магазине",
+        "created_at": "01.02.2024",
+        "status": "Выполнено"
+      }
+    ]
+  }
+]
