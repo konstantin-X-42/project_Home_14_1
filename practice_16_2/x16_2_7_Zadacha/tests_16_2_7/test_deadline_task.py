@@ -2,7 +2,7 @@ import pytest
 
 # ================================
 # запуск тестов
-# poetry run pytest practice_16_1/x16_2_7_Zadacha/tests_16_2_7/test_deadline_task.py
+# poetry run pytest practice_16_2/x16_2_7_Zadacha/tests_16_2_7/test_deadline_task.py
 # ================================
 
 def test_deadline_task_init(task_deadline1):

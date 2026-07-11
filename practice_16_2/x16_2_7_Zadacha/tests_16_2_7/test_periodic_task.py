@@ -3,7 +3,7 @@ from practice_16_2.x16_2_7_Zadacha.tests_16_2_7.conftest import task_periodic1
 
 # ================================
 # запуск тестов
-# poetry run pytest practice_16_1/x16_2_7_Zadacha/tests_16_2_7/test_periodic_task.py
+# poetry run pytest practice_16_2/x16_2_7_Zadacha/tests_16_2_7/test_periodic_task.py
 # ================================
 
 def test_periodic_task_init(task_periodic1):
