@@ -1,6 +1,6 @@
 import datetime
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.base_task import BaseTask
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.print_mixin import PrintMixin
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.base_task import BaseTask
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.print_mixin import PrintMixin
 
 
 class Task(BaseTask, PrintMixin):

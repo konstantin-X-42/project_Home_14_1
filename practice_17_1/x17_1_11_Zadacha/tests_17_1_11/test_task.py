@@ -1,12 +1,12 @@
 import datetime
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.task import Task
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 
 # from task import Task
-# from src_16_2_7.task import Task
+# from src_17_1_11.task import Task
 
 # ================================
 # запуск тестов
-# poetry run pytest practice_16_2/x16_2_7_Zadacha/tests_16_2_7/test_task.py
+# poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_task.py
 # ================================
 
 

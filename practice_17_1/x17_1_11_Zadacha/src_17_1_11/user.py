@@ -10,13 +10,13 @@ Task('Задача1', 'Описание задачи', 'Ожидает стар�
 3.Напишите тесты для нового функционала
 """
 
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.task import Task
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 
 
 # from task import Task
 # from .task import Task
-# from practice_15_1.x15_1_9_Zadacha.src_16_2_7.task import Task
-# from src_16_2_7.task import Task
+# from practice_15_1.x15_1_9_Zadacha.src_17_1_11.task import Task
+# from src_17_1_11.task import Task
 
 
 class User:

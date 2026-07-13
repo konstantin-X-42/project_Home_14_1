@@ -1,6 +1,6 @@
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.task import Task
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.periodic_task import PeriodicTask
-from practice_16_2.x16_2_7_Zadacha.src_16_2_7.dedline_task import DeadlineTask
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.periodic_task import PeriodicTask
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.dedline_task import DeadlineTask
 
 # ================================
 # Запускаем print(message)
@@ -8,7 +8,7 @@ from practice_16_2.x16_2_7_Zadacha.src_16_2_7.dedline_task import DeadlineTask
 # ================================
 # ================================
 # запуск тестов
-# poetry run pytest practice_16_2/x16_2_7_Zadacha/tests_16_2_7/test_print_mixin.py
+# poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_print_mixin.py
 # ================================
 
 def test_print_mixin(capsys):  # вывод в консоль используем capsys
