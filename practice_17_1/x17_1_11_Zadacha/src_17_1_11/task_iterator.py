@@ -1,8 +1,6 @@
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.user import User
 
-# from  task import Task
-# from user import User
 
 class TaskIterator:
     def __init__(self, user_obj):

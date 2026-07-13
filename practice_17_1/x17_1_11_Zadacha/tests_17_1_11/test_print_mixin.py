@@ -6,7 +6,6 @@ from practice_17_1.x17_1_11_Zadacha.src_17_1_11.dedline_task import DeadlineTask
 # Запускаем print(message)
 # pytest -s
 # ================================
-# ================================
 # запуск тестов в модуле test_print_mixin
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_print_mixin.py
 # ================================

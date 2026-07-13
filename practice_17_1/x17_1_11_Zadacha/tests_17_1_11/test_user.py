@@ -1,5 +1,4 @@
 import pytest
-from pyexpat.errors import messages
 
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.user import User
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
