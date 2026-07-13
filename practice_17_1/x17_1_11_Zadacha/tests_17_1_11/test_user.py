@@ -1,19 +1,22 @@
 import pytest
-from practice_17_1.x17_1_11_Zadacha.src_17_1_11.user import User
+from pyexpat.errors import messages
 
-# from user import User
-# from src_17_1_11.user import User
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.user import User
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 
 
 # ================================
 # установка покрытия тестами
 # poetry add pytest-cov --group dev
 # ================================
-# запуск тестов
+# запуск тестов в модуле test_user
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_user.py
 # ================================
-# запуск тестов с покрытием
+# запуск тестов с покрытием в модуле test_user
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_user.py --cov=practice_17_1/x17_1_11_Zadacha/src_17_1_11 --cov-report=term-missing
+# ================================
+# запуск тестов с покрытием во всех модулях
+# poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11 --cov=practice_17_1/x17_1_11_Zadacha/src_17_1_11 --cov-report=term-missing
 # ================================
 
 
@@ -81,3 +84,27 @@ def test_user_task_list_setter_periodic_task(first_user, task_periodic1):
     # print(first_user.task_in_list[-1].name) == "Купить огурцы" # смотрим что возвращает последняя задача
     assert first_user.task_in_list[-1].name == "Купить огурцы"
 
+
+def test_middle_runtime(first_user, user_without_tasks):
+    """ тест на вычисление среднего времени выполнения задач пользователя"""
+    assert first_user.middle_task_runtime() == 45
+    """ тест на вычисление среднего времени выполнения без задач пользователя"""
+    assert user_without_tasks.middle_task_runtime() == 0
+
+
+def test_custom_exception(capsys, first_user):
+    """ тест работы с кастамной (написаной самим) ошибкой, capsys - перехватывает поток вывода"""
+    assert  len(first_user.task_in_list) == 2
+
+    task_add1 = Task("Купить огурцы", "Купить огурцы для салата", created_at="02.07.2026")
+    """ создаём задачу будем добавлять пользователю"""
+    first_user.task_list = task_add1
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-2] == "Нельзя задать задачу с нулевым временем выполнения" # [-2] берем предпоследнее сообщение
+
+    task_add = Task("Купить огурцы", "Купить огурцы для салата", created_at="02.07.2026", run_time=60)
+    """ создаём задачу будем добавлять пользователю"""
+    first_user.task_list = task_add
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-2] == "Задача добавлена успешно" # [-2] берем предпоследнее сообщение
+    assert message.out.strip().split('\n')[-1] == "Обработка выполнения задачи завершена" # [-1] берем последнее сообщение

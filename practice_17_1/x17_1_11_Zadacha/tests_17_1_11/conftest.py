@@ -5,11 +5,6 @@ from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task_iterator import TaskIterato
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.periodic_task import PeriodicTask
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.dedline_task import DeadlineTask
 
-# from task import Task
-# from user import User
-# from src_17_1_11.task import Task
-# from src_17_1_11.user import User
-# from  task_iterator import TaskIterator
 
 # @pytest.fixture — это декоратор, превращает функцию в изолированный тестовый объект
 @pytest.fixture
@@ -20,8 +15,8 @@ def first_user():
         first_name="User",
         last_name="Userov",
         task_list=[
-            Task("Купить огурцы", "Купить огурцы для салата", created_at="02.07.2026"),
-            Task("Купить помидоры", "Купить помидоры для салата", created_at="02.07.2026"),
+            Task("Купить огурцы", "Купить огурцы для салата", created_at="02.07.2026", run_time=60),
+            Task("Купить помидоры", "Купить помидоры для салата", created_at="02.07.2026", run_time=30),
         ],
     )
 
@@ -48,7 +43,7 @@ def second_user():
 
 @pytest.fixture
 def task():
-    return Task("Купить огурцы", "Купить огурцы для салата", created_at="12.06.2026")
+    return Task("Купить огурцы", "Купить огурцы для салата", created_at="12.06.2026", run_time=60)
 
 
 @pytest.fixture
@@ -101,3 +96,13 @@ def task_deadline2():
                         "15.07.2026",
                         run_time=60,
                         created_at="12.06.2026")
+
+@pytest.fixture
+def user_without_tasks():
+    """Содержание пользователя без задач"""
+    return User(
+        username="Some",
+        email="some@mail.ru",
+        first_name="Some",
+        last_name="User",
+    )

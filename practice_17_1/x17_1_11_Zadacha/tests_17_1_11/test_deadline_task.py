@@ -1,7 +1,7 @@
 import pytest
 
 # ================================
-# запуск тестов
+# запуск тестов в модуле test_deadline_task
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_deadline_task.py
 # ================================
 

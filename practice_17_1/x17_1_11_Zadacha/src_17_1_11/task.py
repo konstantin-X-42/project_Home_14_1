@@ -15,7 +15,10 @@ class Task(BaseTask, PrintMixin):
         self.description = description
         self.status = status
         self.__created_at = created_at or datetime.date.today().strftime("%d.%m.%Y")
-        self.run_time = run_time
+        if run_time >= 0:
+            self.run_time = run_time
+        else:
+            raise ValueError("Задачу с отрицательным временем выполнения создать нельзя")
         super().__init__()
 
     # логические методы реализуются в начале класса
@@ -72,3 +75,8 @@ if __name__ == "__main__":
 # ==============================================
     print(task + task2)      # >>> 60
     # task + 5               # >>> ошибка raise TypeError - если атрибут иного класса - возбуждаем ошибку
+
+# ==============================================
+# проверяем задачу с отрицательным временем иполнения
+# ==============================================
+# task = Task("Купить огурцы", "Купить огурцы для салата", run_time=-60)

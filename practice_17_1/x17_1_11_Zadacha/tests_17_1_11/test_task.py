@@ -5,7 +5,7 @@ from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 # from src_17_1_11.task import Task
 
 # ================================
-# запуск тестов
+# запуск тестов в модуле test_task
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_task.py
 # ================================
 

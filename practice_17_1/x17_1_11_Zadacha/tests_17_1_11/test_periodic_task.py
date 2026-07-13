@@ -2,7 +2,7 @@ import pytest
 from practice_17_1.x17_1_11_Zadacha.tests_17_1_11.conftest import task_periodic1
 
 # ================================
-# запуск тестов
+# запуск тестов в модуле test_periodic_task
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11/test_periodic_task.py
 # ================================
 
