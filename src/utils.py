@@ -19,15 +19,17 @@ def load_data(file_path: str) -> list[Category]:
             # 2. Проходим циклом по словарям товаров из JSON
             for product_data in category_data.get("products", []):
                 # Создаем объект Product из данных словаря
-                product = Product(
-                    name=product_data["name"],
-                    description=product_data["description"],
-                    price=product_data["price"],
-                    quantity=product_data["quantity"],
-                )
-
+                # product = Product(
+                #     name=product_data["name"],
+                #     description=product_data["description"],
+                #     price=product_data["price"],
+                #     quantity=product_data["quantity"],
+                # )
+                # Если quantity == 0, выбросится ValueError и программа полностью остановится.
+                product = Product.new_product(product_data, products_list)
+                if product not in products_list:
                 # записываем данные product в конец списка product_list
-                products_list.append(product)
+                    products_list.append(product)
 
             # 3. Создаем объект category и передаем список готовых ОБЪЕКТОВ Product в конструктор Category
             category = Category(

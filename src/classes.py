@@ -35,22 +35,36 @@ class PrintMixin:
         # Передаем управление дальше по цепочке MRO для инициализации объекта
         super().__init__(*args, **kwargs)
 #####
+    # 17.1 задание 2 изменил метод
     def __repr__(self) -> str:
         """Магический метод для детального текстового представления объекта."""
-        # Получаем имя текущего класса динамически
         class_name = self.__class__.__name__
-        # Динамически собираем все значения атрибутов через __dict__
-        attrs = ", ".join(f"'{v}'" if isinstance(v, str) else str(v) for v in self.__dict__.values())
-        return f"{class_name}({attrs})"
+        attrs_list = []
+        for k, v in self.__dict__.items():
+            clean_key = k.split("__")[-1]
+            val = f"'{v}'" if isinstance(v, str) else str(v)
+            attrs_list.append(f"{clean_key}={val}")
+
+        return f"{class_name}({', '.join(attrs_list)})"
+
+    # def __repr__(self) -> str:
+    #     """Магический метод для детального текстового представления объекта."""
+    #     # Получаем имя текущего класса динамически
+    #     class_name = self.__class__.__name__
+    #     # Динамически собираем все значения атрибутов через __dict__
+    #     attrs = ", ".join(f"'{v}'" if isinstance(v, str) else str(v) for v in self.__dict__.values())
+    #     return f"{class_name}({attrs})"
 
 
 # 16.2 задание 2. Добавляем миксин в цепочку наследования класса Product (справа)
-class Product(BaseProduct, PrintMixin):
+# class Product(BaseProduct, PrintMixin):
+# 17.1 задание 2. Добавляем миксин в цепочку наследования класса Product (слева)
+class Product(PrintMixin, BaseProduct):
     """Класс для представления товара."""
 
-    # 17.1 задание 1. Обработка нулевого количества
     def __init__(self, name: str, description: str, price: float, quantity: int):
         """Инициализация и сохранение параметров каждого объекта"""
+        # 17.1 задание 1. Вызываем исключение, если количество нулевое или отрицательное
         if quantity <= 0:
             raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
@@ -63,7 +77,8 @@ class Product(BaseProduct, PrintMixin):
         # Количество в наличии
         self.quantity = quantity
         # вызываем super().__init__() без аргументов, чтобы отработал конструктор миксина и распечатал готовый объект!
-        super().__init__()
+######17.1-2
+        # super().__init__()
 
     def __str__(self) -> str:
         """Строковое представление продукта"""
@@ -71,7 +86,7 @@ class Product(BaseProduct, PrintMixin):
 
     def __add__(self, other: Any) -> float:
         """
-        Сложение двух продуктов: сумма произведений цены на количество.
+        Сложение двух продуктов, сумма произведений цены на количество.
         Разрешено сложение товаров только одинаковых классов.
         """
         # 16.1 задание 2. Строгая проверка на совпадение классов с помощью type()
@@ -137,7 +152,7 @@ class Smartphone(Product):
         model: str,
         memory: int,
         color: str,
-    ):
+    ) -> None:
         """
         Инициализация смартфона.
         Использует конструктор базового класса Product для общих атрибутов
@@ -162,7 +177,7 @@ class LawnGrass(Product):
         country: str,
         germination_period: str,
         color: str,
-    ):
+    ) -> None:
         """
         Инициализация газонной травы.
         Использует конструктор базового класса Product для общих атрибутов
@@ -174,14 +189,24 @@ class LawnGrass(Product):
         self.color = color  # цвет
 
 
-class Category:
+# 17.1 задание2
+class BaseOrderCategory(ABC):
+    """Абстрактный базовый класс для Категорий и Заказов."""
+
+    @abstractmethod
+    def __str__(self) -> str:
+        """Обязательное строковое представление для наследников."""
+        pass
+
+# 17.1 задание2
+class Category(BaseOrderCategory):
     """Класс для представления категории товаров."""
 
     # Атрибуты класса для хранения общей информации
     category_count: int = 0  # Количество категорий
     product_count: int = 0  # Количество уникальных товаров
 
-    def __init__(self, name: str, description: str, products: List[Product]):
+    def __init__(self, name: str, description: str, products: List[Product]) -> None:
         """Инициализация и сохранение параметров каждого объекта"""
         # Название категории
         self.name = name
@@ -210,9 +235,12 @@ class Category:
         # 16.1.задание 3. Проверка типа с помощью isinstance
         if not isinstance(product, Product):
             raise TypeError("В категорию можно добавлять только продукты или их наследников")
-
-        self.__products.append(product)
-        Category.product_count += 1
+        # 17.1 задание 2 Проверка товара в списке, если такой товар уже существует, добавляет его копию еще раз
+        if any(p.name == product.name for p in self.__products):
+            self.__products.append(product)
+        else:
+            self.__products.append(product)
+            Category.product_count += 1
 
     @property
     def products(self) -> str:
@@ -247,9 +275,10 @@ class Category:
         """Дополнительный геттер для получения списка объектов (для итератора)"""
         return self.__products
 
-    # 17.1 задание 1. Расчет средней цены товаров
-    def average_price(self) -> float:
-        """Метод подсчета среднего ценника всех товаров в категории."""
+    # 17.1 задание 2. Расчет средней цены товаров
+    def middle_price(self) -> float:
+        """Метод подсчета среднего ценника всех товаров в категории.
+        Если в категории нет товаров, возвращает 0."""
         try:
             total_price = sum(product.price for product in self.__products)
             return total_price / len(self.__products)
@@ -260,7 +289,7 @@ class Category:
 class CategoryIterator:
     """Класс для итерации по товарам конкретной категории."""
 
-    def __init__(self, category: Category):
+    def __init__(self, category: Category) -> None:
         self.products = category.get_products_list
         self.index = 0
 
@@ -279,7 +308,7 @@ class CategoryIterator:
             raise StopIteration
 
 
-# 16.2 доп.заание
+# 16.2 доп.задание
 class BaseOrderCategory(ABC):
     """Абстрактный базовый класс для Категорий и Заказов."""
 
@@ -298,10 +327,18 @@ class Order(BaseOrderCategory):
         if not isinstance(product, Product):
             raise TypeError("В заказ можно добавить только продукт или его наследника")
 
+        # 17.1 задание 2
+        if quantity <= 0:
+            raise ValueError("Количество товара в заказе должно быть больше нуля")
+
         self.product = product
         self.quantity = quantity
-        # Итоговая стоимость рассчитывается автоматически при создании
-        self.total_cost = product.price * quantity
+
+
+    @property
+    def total_cost(self) -> float:
+        """Динамический расчет итоговой стоимости заказа."""
+        return self.product.price * self.quantity
 
     def __str__(self) -> str:
         """Строковое представление заказа."""
