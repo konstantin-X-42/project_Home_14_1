@@ -7,13 +7,13 @@ class TaskIterator:
         self.user = user_obj
         self.index = 0
 
-# 1. магический метод __iter__
+    # 1. магический метод __iter__
     def __iter__(self):
         self.index = 0
         return self
 
-# 2. магический метод __next__(возвращает следующий элемент последовательности
-# и проверка на остановку перебора последовательности возвращает StopIteration)
+    # 2. магический метод __next__(возвращает следующий элемент последовательности
+    # и проверка на остановку перебора последовательности возвращает StopIteration)
     def __next__(self):
         if self.index < len(self.user.task_in_list):
             task = self.user.task_in_list[self.index]
@@ -30,8 +30,13 @@ if __name__ == "__main__":
     task3 = Task(name="Купить лук", description="Купить лук для салата")
     task4 = Task(name="Купить перец", description="Купить перец для салата")
 
-    user = User(username='User', email='user@mail.ru', first_name='User', last_name='Userov',
-                task_list=[task1, task2, task3, task4])
+    user = User(
+        username="User",
+        email="user@mail.ru",
+        first_name="User",
+        last_name="Userov",
+        task_list=[task1, task2, task3, task4],
+    )
 
     iterator = TaskIterator(user)
 

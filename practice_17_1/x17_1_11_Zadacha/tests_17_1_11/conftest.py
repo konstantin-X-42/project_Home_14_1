@@ -1,9 +1,10 @@
 import pytest
-from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
-from practice_17_1.x17_1_11_Zadacha.src_17_1_11.user import User
-from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task_iterator import TaskIterator
-from practice_17_1.x17_1_11_Zadacha.src_17_1_11.periodic_task import PeriodicTask
+
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.dedline_task import DeadlineTask
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.periodic_task import PeriodicTask
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task_iterator import TaskIterator
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.user import User
 
 
 # @pytest.fixture — это декоратор, превращает функцию в изолированный тестовый объект
@@ -63,39 +64,32 @@ def task_iterator(second_user):
 
 @pytest.fixture
 def task_periodic1():
-    return PeriodicTask("Купить огурцы",
-                        "Купить огурцы для салата",
-                        "01.01.2026",
-                        "01.01.2026",
-                        run_time=60,
-                        created_at="12.06.2026")
+    return PeriodicTask(
+        "Купить огурцы", "Купить огурцы для салата", "01.01.2026", "01.01.2026", run_time=60, created_at="12.06.2026"
+    )
 
 
 @pytest.fixture
 def task_periodic2():
-    return PeriodicTask("Купить помидоры",
-                        "Купить помидоры для салата",
-                        "01.01.2026",
-                        "01.01.2026",
-                        run_time=60,
-                        created_at="12.06.2026")
+    return PeriodicTask(
+        "Купить помидоры",
+        "Купить помидоры для салата",
+        "01.01.2026",
+        "01.01.2026",
+        run_time=60,
+        created_at="12.06.2026",
+    )
 
 
 @pytest.fixture
 def task_deadline1():
-    return DeadlineTask("Купить перец",
-                        "Купить перец для салата",
-                        "15.07.2026",
-                        run_time=60,
-                        created_at="12.06.2026")
+    return DeadlineTask("Купить перец", "Купить перец для салата", "15.07.2026", run_time=60, created_at="12.06.2026")
+
 
 @pytest.fixture
 def task_deadline2():
-    return DeadlineTask("Купить лук",
-                        "Купить лук для салата",
-                        "15.07.2026",
-                        run_time=60,
-                        created_at="12.06.2026")
+    return DeadlineTask("Купить лук", "Купить лук для салата", "15.07.2026", run_time=60, created_at="12.06.2026")
+
 
 @pytest.fixture
 def user_without_tasks():

@@ -27,14 +27,16 @@ class BaseProduct(ABC):
 # 16.2 задание 1, 2
 class PrintMixin:
     """Класс миксин для логирования создания объектов."""
-#####
+
+    #####
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Конструктор миксина, печатающий информацию об объекте в консоль."""
         # Выводим строковое представление объекта в консоль
         print(self.__repr__())
         # Передаем управление дальше по цепочке MRO для инициализации объекта
         super().__init__(*args, **kwargs)
-#####
+
+    #####
     # 17.1 задание 2 изменил метод
     def __repr__(self) -> str:
         """Магический метод для детального текстового представления объекта."""
@@ -77,8 +79,6 @@ class Product(PrintMixin, BaseProduct):
         # Количество в наличии
         self.quantity = quantity
         # вызываем super().__init__() без аргументов, чтобы отработал конструктор миксина и распечатал готовый объект!
-######17.1-2
-        # super().__init__()
 
     def __str__(self) -> str:
         """Строковое представление продукта"""
@@ -141,7 +141,8 @@ class Product(PrintMixin, BaseProduct):
 
 class Smartphone(Product):
     """16.1 Класс для представления смартфона."""
-#####
+
+    #####
     def __init__(
         self,
         name: str,
@@ -163,6 +164,7 @@ class Smartphone(Product):
         self.model = model  # модель
         self.memory = memory  # объем встроенной памяти
         self.color = color  # цвет
+
 
 #####
 class LawnGrass(Product):
@@ -197,6 +199,7 @@ class BaseOrderCategory(ABC):
     def __str__(self) -> str:
         """Обязательное строковое представление для наследников."""
         pass
+
 
 # 17.1 задание2
 class Category(BaseOrderCategory):
@@ -286,6 +289,7 @@ class Category(BaseOrderCategory):
             # Если в категории нет товаров (деление на ноль), возвращаем 0
             return 0.0
 
+
 class CategoryIterator:
     """Класс для итерации по товарам конкретной категории."""
 
@@ -333,7 +337,6 @@ class Order(BaseOrderCategory):
 
         self.product = product
         self.quantity = quantity
-
 
     @property
     def total_cost(self) -> float:

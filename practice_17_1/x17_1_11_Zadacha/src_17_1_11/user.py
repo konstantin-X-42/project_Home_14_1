@@ -11,14 +11,14 @@
 4. Написать тесты для нового функционала
 """
 
-from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 from practice_17_1.x17_1_11_Zadacha.src_17_1_11.exceptions import ZeroRunTimeTask
-
+from practice_17_1.x17_1_11_Zadacha.src_17_1_11.task import Task
 
 # ================================
 # запуск тестов с покрытием во всех модулях
 # poetry run pytest practice_17_1/x17_1_11_Zadacha/tests_17_1_11 --cov=practice_17_1/x17_1_11_Zadacha/src_17_1_11 --cov-report=term-missing
 # ================================
+
 
 class User:
     username: str
@@ -38,7 +38,9 @@ class User:
         User.all_tasks_count += len(task_list) if task_list else 0
 
     def __str__(self):
-        return f'{self.last_name} {self.first_name}, Email: {self.email}, Всего задач в списке: {len(self.__task_list)}'
+        return (
+            f"{self.last_name} {self.first_name}, Email: {self.email}, Всего задач в списке: {len(self.__task_list)}"
+        )
 
     @property
     def task_list(self):
@@ -49,18 +51,18 @@ class User:
 
     @task_list.setter
     def task_list(self, task: Task):
-        """ Добавление листа __task_list и увеличение значения задач"""
+        """Добавление листа __task_list и увеличение значения задач"""
         if isinstance(task, Task):  # проверка, что передаются только экземпляры класса Task
             try:
                 if task.run_time == 0:
                     raise ZeroRunTimeTask("Нельзя задать задачу с нулевым временем выполнения")
             except ZeroRunTimeTask as e:
                 print(str(e))
-            else: # если ошибки не возникает, в блоке происходит добавление задач пользователя и увеличение счётчика
+            else:  # если ошибки не возникает, в блоке происходит добавление задач пользователя и увеличение счётчика
                 self.__task_list.append(task)
                 User.all_tasks_count += 1
                 print("Задача добавлена успешно")
-            finally: # выполняется после выполнения try (с else) или except
+            finally:  # выполняется после выполнения try (с else) или except
                 print("Обработка выполнения задачи завершена")
         else:
             raise TypeError  # если атрибут иного класса - возбуждаем ошибку
@@ -69,14 +71,14 @@ class User:
     def task_in_list(self):
         return self.__task_list
 
-
-# ===================================
-# 17.1 метод для пользователя вычисляет среднее время выполнения его задач
+    # ===================================
+    # 17.1 метод для пользователя вычисляет среднее время выполнения его задач
     def middle_task_runtime(self):
         try:
             return sum([task.run_time for task in self.__task_list]) / len(self.__task_list)
         except ZeroDivisionError:
             return 0
+
 
 if __name__ == "__main__":
     task1 = Task("Купить огурцы", "Купить огурцы для салата", run_time=20)

@@ -94,9 +94,11 @@ def test_load_data_file_not_found():
     with pytest.raises(FileNotFoundError):
         load_data("non_existent_file_12345.json")
 
+
 # ==============================================================================
 # ТЕСТЫ 17.1 Исключения
 # ==============================================================================
+
 
 def test_load_data_with_zero_quantity_raises_value_error(tmp_path):
     """Тест, что load_data выбрасывает ValueError, если в JSON есть товар с quantity <= 0.

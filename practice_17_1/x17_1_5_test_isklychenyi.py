@@ -11,6 +11,7 @@
 
 # raise TypeError конструкция останавливает программу и выбрасываем исключение
 
+
 class Employee:
 
     def __init__(self, first, last, pay):
@@ -26,34 +27,34 @@ class Employee:
         raise TypeError
 
 
-if __name__ == '__main__':
-    emp_1 = Employee(first='Ivan', last='Ivanov', pay=50000)
-    emp_2 = Employee(first='Petr', last='Petrov', pay=50000)
+if __name__ == "__main__":
+    emp_1 = Employee(first="Ivan", last="Ivanov", pay=50000)
+    emp_2 = Employee(first="Petr", last="Petrov", pay=50000)
 
     print(emp_1 + emp_2)
     print(emp_1 + 10000)
-    print(emp_1 + '123123')
+    print(emp_1 + "123123")
 
 # ===================================================
 # тестирование
 # ===================================================
 
 import pytest
+
 #
 # from main import Employee
 
 
 def test_raises():
-    emp_1 = Employee(first='Ivan', last='Ivanov', pay=50000)
+    emp_1 = Employee(first="Ivan", last="Ivanov", pay=50000)
     with pytest.raises(TypeError) as e_info:
-        emp_1 + '50000'
+        emp_1 + "50000"
 
 
 def test_raises_with_dict():
-    emp_1 = Employee(first='Ivan', last='Ivanov', pay=50000)
+    emp_1 = Employee(first="Ivan", last="Ivanov", pay=50000)
     with pytest.raises(TypeError) as e_info:
-        emp_1 + {'1': '2'} # размещаем только строку кода гдне исключение!!
+        emp_1 + {"1": "2"}  # размещаем только строку кода гдне исключение!!
+
 
 # делаем отдельные тесты на конструктор
-
-

@@ -7,7 +7,6 @@ ZeroDivisionError  Ошибка деления на ноль    1 / 0
 FileNotFoundError  Ошибка отсутствия файла   Попытка открыть несуществующий файл
 """
 
-
 """
 Задача
 Спровоцировать и обработать исключения разных типов:
@@ -24,17 +23,17 @@ FileNotFoundError  Ошибка отсутствия файла   Попытка
 try:
     print(a)
 except NameError:
-    print('Обращение к несуществующей переменной')
+    print("Обращение к несуществующей переменной")
 
 try:
     1 / 0
 except ZeroDivisionError:
-    print('Нельзя делить на ноль')
+    print("Нельзя делить на ноль")
 
 try:
-    open('some_file')
+    open("some_file")
 except FileNotFoundError:
-    print('Файл не существует')
+    print("Файл не существует")
 
 
 """
@@ -79,13 +78,13 @@ print("\n- - Полная форма try/except - -")
 # ======================================================
 
 try:
-    print('Основной код.')
+    print("Основной код.")
 except:
-    print('Код, если возникло исключение.')
+    print("Код, если возникло исключение.")
 else:
-    print('Код, если не возникло исключений.')
+    print("Код, если не возникло исключений.")
 finally:
-    print('Код, который выполняется всегда.')
+    print("Код, который выполняется всегда.")
 
 # ======================================================
 print("\n- - Исключения - -")
@@ -94,18 +93,18 @@ print("\n- - Исключения - -")
 # а самые близкие к Exception (или сам Exception) — в самый конец
 
 try:
-    a, b = input('Введите 2 числа через пробел: ').split()
+    a, b = input("Введите 2 числа через пробел: ").split()
     a, b = int(a), int(b)
     result = a / b
-except ValueError as e:   # если вместо ValueError написать Exception, то ZeroDivisionError не когда не выполнится
+except ValueError as e:  # если вместо ValueError написать Exception, то ZeroDivisionError не когда не выполнится
     # Exception выводит исключения ниже по иерархии
     print(e)
 except ZeroDivisionError as e:
     print(e)
-else:     # если ошибок в блоке try нет (except не выводится), то срабатывает после try блок else
+else:  # если ошибок в блоке try нет (except не выводится), то срабатывает после try блок else
     print(result)
 finally:
-    print('Операция завершена')
+    print("Операция завершена")
 
 # ======================================================
 print("\n- - Задача - -")
@@ -124,17 +123,17 @@ print("\n- - Задача - -")
 """
 
 try:
-    a, b = input('Введите 2 числа через пробел: ').split() # <<< 25 2
+    a, b = input("Введите 2 числа через пробел: ").split()  # <<< 25 2
     a, b = int(a), int(b)
     result = a / b
-except ValueError as e: # в "e" содержится информация об ошибке, "e" внедряют в систему логирования или
-                       # в файл, телеграмм канал или почту
+except ValueError as e:  # в "e" содержится информация об ошибке, "e" внедряют в систему логирования или
+    # в файл, телеграмм канал или почту
     print(e)  # >>> unsupported operand type(s) for /: 'str' and 'str'
 
 except ZeroDivisionError as e:
     print(e)  # >>> division by zero
-else:    # выполняется если код отрабатывает по try
+else:  # выполняется если код отрабатывает по try
     print(result)  # >>> 12.5
 
-finally: # выполняется в любом случае завершения по except или try
-    print('Операция завершена')  # >>> Операция завершена
+finally:  # выполняется в любом случае завершения по except или try
+    print("Операция завершена")  # >>> Операция завершена
