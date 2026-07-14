@@ -27,14 +27,14 @@ class BaseProduct(ABC):
 # 16.2 задание 1, 2
 class PrintMixin:
     """Класс миксин для логирования создания объектов."""
-
+#####
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Конструктор миксина, печатающий информацию об объекте в консоль."""
         # Выводим строковое представление объекта в консоль
         print(self.__repr__())
         # Передаем управление дальше по цепочке MRO для инициализации объекта
         super().__init__(*args, **kwargs)
-
+#####
     def __repr__(self) -> str:
         """Магический метод для детального текстового представления объекта."""
         # Получаем имя текущего класса динамически
@@ -44,12 +44,16 @@ class PrintMixin:
         return f"{class_name}({attrs})"
 
 
-# 16.2 задание2 Добавляем миксин в цепочку наследования класса Product (справа)
+# 16.2 задание 2. Добавляем миксин в цепочку наследования класса Product (справа)
 class Product(BaseProduct, PrintMixin):
     """Класс для представления товара."""
 
+    # 17.1 задание 1. Обработка нулевого количества
     def __init__(self, name: str, description: str, price: float, quantity: int):
         """Инициализация и сохранение параметров каждого объекта"""
+        if quantity <= 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         # Название товара
         self.name = name
         # Описание товара
@@ -122,7 +126,7 @@ class Product(BaseProduct, PrintMixin):
 
 class Smartphone(Product):
     """16.1 Класс для представления смартфона."""
-
+#####
     def __init__(
         self,
         name: str,
@@ -145,7 +149,7 @@ class Smartphone(Product):
         self.memory = memory  # объем встроенной памяти
         self.color = color  # цвет
 
-
+#####
 class LawnGrass(Product):
     """16.1 Класс для представления газонной травы."""
 
@@ -243,6 +247,15 @@ class Category:
         """Дополнительный геттер для получения списка объектов (для итератора)"""
         return self.__products
 
+    # 17.1 задание 1. Расчет средней цены товаров
+    def average_price(self) -> float:
+        """Метод подсчета среднего ценника всех товаров в категории."""
+        try:
+            total_price = sum(product.price for product in self.__products)
+            return total_price / len(self.__products)
+        except ZeroDivisionError:
+            # Если в категории нет товаров (деление на ноль), возвращаем 0
+            return 0.0
 
 class CategoryIterator:
     """Класс для итерации по товарам конкретной категории."""
