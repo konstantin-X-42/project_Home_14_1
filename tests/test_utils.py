@@ -93,3 +93,37 @@ def test_load_data_file_not_found():
     """
     with pytest.raises(FileNotFoundError):
         load_data("non_existent_file_12345.json")
+
+# ==============================================================================
+# ТЕСТЫ 17.1 Исключения
+# ==============================================================================
+
+def test_load_data_with_zero_quantity_raises_value_error(tmp_path):
+    """Тест, что load_data выбрасывает ValueError, если в JSON есть товар с quantity <= 0.
+
+    Это проверяет интеграцию нового правила валидации из класса Product.
+    """
+    # Подготавливаем JSON-данные, содержащие дефектный товар с нулевым количеством
+    invalid_data = [
+        {
+            "name": "Смартфоны",
+            "description": "Мобильные устройства",
+            "products": [
+                {
+                    "name": "Бракованный Телефон",
+                    "description": "Товар, у которого количество равно 0",
+                    "price": 19999.0,
+                    "quantity": 0,  # ИСПРАВЛЕНО: Новый функционал запрещает создавать такие товары
+                }
+            ],
+        }
+    ]
+
+    # Записываем эти дефектные данные во временный файл
+    invalid_file = tmp_path / "invalid_products.json"
+    with open(invalid_file, "w", encoding="utf-8") as f:
+        json.dump(invalid_data, f)
+
+    # Проверяем, что функция load_data падает с ValueError, когда доходит до этого товара
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        load_data(str(invalid_file))
