@@ -336,3 +336,40 @@ def test_order_str(sample_products):
 
     expected_str = "Заказ: Nokia, 2 шт. Итоговая стоимость: 7999.98 руб."
     assert str(order) == expected_str
+
+
+# ==============================================================================
+# ТЕСТЫ 17.1 Исключения
+# ==============================================================================
+
+
+def test_product_init_zero_or_negative_quantity_raises_value_error():
+    """ЗАДАНИЕ 1: Проверка выброса ValueError при создании товара с количеством <= 0."""
+    # Проверяем нулевое количество
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Бракованный товар", "Описание", 100.0, 0)
+
+    # Проверяем отрицательное количество
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Бракованный товар 2", "Описание", 500.0, -5)
+
+
+def test_category_middle_price_normal(sample_products):
+    """ЗАДАНИЕ 2: Проверка корректного расчета средней цены товаров в категории."""
+    # Создаем категорию на основе фикстуры sample_products
+    products_list = sample_products
+    category = Category("Тестовая категория", "Описание", products_list)
+
+    # Ваши товары в фикстуре: Samsung (60000.0), Nokia (3999.99), sd 128Гб (1750.2)
+    # Средняя цена: (60000.0 + 3999.99 + 1750.2) / 3 = 65750.19 / 3 = 21916.73
+    expected_middle_price = (60000.0 + 3999.99 + 1750.2) / 3
+
+    assert category.middle_price() == pytest.approx(expected_middle_price, 0.01)
+
+
+def test_category_middle_price_empty_returns_zero():
+    """ЗАДАНИЕ 2: Проверка перехвата ZeroDivisionError (пустая категория должна вернуть 0)."""
+    empty_category = Category("Пустая категория", "Здесь нет товаров", [])
+
+    # Метод не должен падать с ошибкой деления на ноль, а обязан вернуть 0.0
+    assert empty_category.middle_price() == 0.0
